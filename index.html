@@ -126,6 +126,19 @@
                  background:rgba(176,122,30,.08); color:var(--console-dim); font-family:var(--sans);
                  font-size:12.5px; line-height:1.5; border-radius:0 4px 4px 0; }
   .console-note b{ color:var(--console-fg); font-weight:600; }
+  .console-note code{ background:rgba(127,174,156,.12); border-color:var(--console-line); color:var(--console-fg); }
+  .console-note.revealed{ animation:noteIn .34s ease both; }
+  @media (prefers-reduced-motion:reduce){ .console-note.revealed{ animation:none; } }
+  @keyframes noteIn{ from{opacity:0; transform:translateY(5px);} to{opacity:1; transform:none;} }
+
+  /* interactive reveal gate inside the terminal */
+  .console-body .gate{ margin:9px 0 3px; }
+  .gate-btn{ font-family:var(--mono); font-size:12.5px; color:var(--verdigris); background:rgba(127,174,156,.07);
+             border:1px dashed var(--verdigris); border-radius:6px; padding:8px 13px; cursor:pointer;
+             animation:gatepulse 1.7s ease-in-out infinite; }
+  .gate-btn:hover{ background:rgba(127,174,156,.16); }
+  @media (prefers-reduced-motion:reduce){ .gate-btn{ animation:none; } }
+  @keyframes gatepulse{ 0%,100%{ opacity:.65; } 50%{ opacity:1; } }
 
   /* command buttons */
   .console-actions{ display:flex; flex-wrap:wrap; gap:9px; padding:13px 15px 15px; border-top:1px solid var(--console-line); align-items:center; }
@@ -240,7 +253,7 @@
           <div class="console-body" id="termA"></div>
           <div class="console-actions" data-cli="A"><span class="prefix">run →</span></div>
         </div>
-        <div class="console-hint"><span>each command really executes • they unlock in order</span><button class="skip-link" type="button" data-skip="A" hidden>skip the rest →</button></div>
+        <div class="console-hint"><span>each command really executes • output streams in • click <b style="color:var(--verdigris)">▸</b> to unpack the explanations</span><button class="skip-link" type="button" data-skip="A" hidden>skip the rest →</button></div>
       </div>
     </section>
 
@@ -269,7 +282,7 @@
           <div class="console-body" id="termB"></div>
           <div class="console-actions" data-cli="B"><span class="prefix">run →</span></div>
         </div>
-        <div class="console-hint"><span>picks up exactly where the last terminal left off</span><button class="skip-link" type="button" data-skip="B" hidden>skip the rest →</button></div>
+        <div class="console-hint"><span>picks up where the last terminal left off • click <b style="color:var(--verdigris)">▸</b> to unpack each explanation</span><button class="skip-link" type="button" data-skip="B" hidden>skip the rest →</button></div>
       </div>
     </section>
 
@@ -468,57 +481,82 @@
   function refreshSkip(cli){
     var slide=cli.termEl.closest('.step');
     var skip=slide.querySelector('.skip-link');
-    if(skip){ skip.hidden = !(cli.idx>=1 && !cli.done); }
+    if(skip){ skip.hidden = !(cli.idx>=1 && !cli.done && !session.running); }
   }
 
-  function typeCmd(cli, text){
-    // print the "$ cmd" line with a trailing cursor, briefly
+  function scrollTerm(cli){ cli.termEl.scrollTop=cli.termEl.scrollHeight; }
+  function plain(h){ return (h||'').replace(/<[^>]*>/g,'').replace(/&nbsp;/g,' ').trim(); }
+
+  // type the "$ cmd" echo with a trailing cursor, hold, then settle it
+  function typeEcho(cli, cmd){
     var d=document.createElement('div'); d.className='ln';
-    d.innerHTML='<span class="prompt">$</span> '+text+'<span class="cursor"></span>';
-    cli.termEl.appendChild(d);
-    cli.termEl.scrollTop=cli.termEl.scrollHeight;
-    return d;
+    d.innerHTML='<span class="prompt">$</span> '+esc(cmd)+'<span class="cursor"></span>';
+    cli.termEl.appendChild(d); scrollTerm(cli);
+    return delay(reduced?0:460).then(function(){
+      d.innerHTML='<span class="prompt">$</span> '+esc(cmd);
+      scrollback.push({h:'<span class="prompt">$</span> '+esc(cmd)});
+    });
+  }
+
+  // stream output lines one at a time so they don't all appear at once
+  function streamLines(cli, lines){
+    return lines.reduce(function(chain,o){
+      return chain.then(function(){
+        cli.termEl.appendChild(lineEl(o)); scrollback.push(o); scrollTerm(cli);
+        return delay(plain(o.h)===''?55:120);
+      });
+    }, Promise.resolve());
+  }
+
+  // interactive gate: user must click to reveal the explanation chunk
+  function gate(cli){
+    return new Promise(function(resolve){
+      var g=document.createElement('div'); g.className='ln gate';
+      g.innerHTML='<button type="button" class="gate-btn">▸ show what just happened</button>';
+      cli.termEl.appendChild(g); scrollTerm(cli);
+      var fired=false;
+      function fire(){ if(fired) return; fired=true; cli.pendingGate=null; g.remove(); resolve(); }
+      cli.pendingGate=fire;
+      g.querySelector('.gate-btn').addEventListener('click', fire);
+    });
+  }
+
+  function appendNote(cli, html){
+    var n=document.createElement('div'); n.className='console-note revealed'; n.innerHTML=html;
+    cli.termEl.appendChild(n); scrollTerm(cli);
+    return delay(reduced?0:120);
   }
 
   function runStep(cli, i, btn){
     if(session.running || cli.idx!==i || cli.done) return;   // debounce + strict order
-    session.running=true;
+    session.running=true; refreshSkip(cli);
     btn.disabled=true;
-    var lbl=btn.querySelector('.lbl');
     var oldHTML=btn.innerHTML;
     btn.innerHTML='<span class="spin"></span><span class="lbl">'+cli.script[i].cmd+'</span>';
     var step=cli.script[i];
-    var out=run(step.cmd);                                    // REAL engine call
-    // first line is the "$ cmd" echo — render it as a typing line, then the rest after a beat
-    var typing=typeCmd(cli, esc(step.cmd));
-    delay(reduced?0:520).then(function(){
-      // replace typing line with committed echo (no cursor), then stream output
-      typing.remove();
-      var commit=[];
-      out.forEach(function(o){ var e=lineEl(o); cli.termEl.appendChild(e); commit.push(o); });
-      // note
-      if(step.note){ var n=document.createElement('div'); n.className='console-note'; n.innerHTML=step.note; cli.termEl.appendChild(n); }
-      commit.forEach(function(o){ scrollback.push(o); });
-      cli.termEl.scrollTop=cli.termEl.scrollHeight;
-      // finalize button
+    var out=run(step.cmd);                                    // REAL engine call; out[0] is the echo
+    var body=out.slice(1);
+    typeEcho(cli, step.cmd).then(function(){
+      return streamLines(cli, body);                          // stream the output, paced
+    }).then(function(){
+      // explanation chunk is gated behind a deliberate click
+      if(step.note){ return gate(cli).then(function(){ return appendNote(cli, step.note); }); }
+    }).then(function(){
       btn.innerHTML=oldHTML; btn.classList.add('done'); btn.disabled=true;
       cli.idx=i+1;
-      // reveal next
       if(cli.idx<cli.script.length){ cli.script[cli.idx].__btn.classList.remove('pending'); }
       else { cli.done=true; unlockContinue(); }
-      refreshSkip(cli);
-      session.running=false;
+      session.running=false; refreshSkip(cli);
     });
   }
 
   function skipCLI(cli){
-    if(cli.done) return;
-    // run remaining steps instantly into scrollback (no animation), mark done
+    if(cli.done || session.running) return;   // only between steps
     while(cli.idx<cli.script.length){
       var step=cli.script[cli.idx];
       var out=run(step.cmd);
       out.forEach(function(o){ cli.termEl.appendChild(lineEl(o)); scrollback.push(o); });
-      if(step.note){ var n=document.createElement('div'); n.className='console-note'; n.innerHTML=step.note; cli.termEl.appendChild(n); }
+      if(step.note){ var n=document.createElement('div'); n.className='console-note revealed'; n.innerHTML=step.note; cli.termEl.appendChild(n); }
       step.__btn.classList.add('done'); step.__btn.classList.remove('pending'); step.__btn.disabled=true;
       cli.idx++;
     }
@@ -556,6 +594,7 @@
   function isCLIgate(){ var s=currentSlide(); return s.__cli && !s.__cli.done; }
 
   function render(dir){
+    session.running=false;   // free the lock when navigating between slides
     steps.forEach(function(s){
       var n=Number(s.getAttribute('data-step'));
       if(n===current){ s.hidden=false; s.classList.remove('dir-back');
