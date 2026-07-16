@@ -38,7 +38,6 @@
     --ink: #14181f;
     --ink-soft: #454b45;
     --stamp: #93362a;
-    --stamp-soft: #93362a;
     --verdigris: #3f6656;
     --console-bg: #12161c;
     --console-fg: #dcdccd;
@@ -47,85 +46,57 @@
     --serif: 'Fraunces Disp', ui-serif, Georgia, 'Iowan Old Style', serif;
     --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', ui-sans-serif, Roboto, Helvetica, Arial, sans-serif;
     --mono: 'Plex Console', ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, Consolas, monospace;
-    --shadow: 0 1px 0 rgba(20,24,31,0.06);
     color-scheme: light;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --paper: #14181f;
-      --paper-dim: #1b2029;
-      --paper-line: #333a41;
-      --ink: #e7e6dc;
-      --ink-soft: #a3a89e;
-      --stamp: #d9695a;
-      --stamp-soft: #d9695a;
-      --verdigris: #7fae9c;
-      --console-bg: #0c0e12;
-      --console-fg: #dcdccd;
-      --console-dim: #6d746a;
-      --console-line: #21262d;
+      --paper: #14181f; --paper-dim: #1b2029; --paper-line: #333a41;
+      --ink: #e7e6dc; --ink-soft: #a3a89e;
+      --stamp: #d9695a; --verdigris: #7fae9c;
+      --console-bg: #0c0e12; --console-fg: #dcdccd; --console-dim: #6d746a; --console-line: #21262d;
       color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
-    --paper: #14181f;
-    --paper-dim: #1b2029;
-    --paper-line: #333a41;
-    --ink: #e7e6dc;
-    --ink-soft: #a3a89e;
-    --stamp: #d9695a;
-    --stamp-soft: #d9695a;
-    --verdigris: #7fae9c;
-    --console-bg: #0c0e12;
-    --console-fg: #dcdccd;
-    --console-dim: #6d746a;
-    --console-line: #21262d;
+    --paper: #14181f; --paper-dim: #1b2029; --paper-line: #333a41;
+    --ink: #e7e6dc; --ink-soft: #a3a89e;
+    --stamp: #d9695a; --verdigris: #7fae9c;
+    --console-bg: #0c0e12; --console-fg: #dcdccd; --console-dim: #6d746a; --console-line: #21262d;
     color-scheme: dark;
   }
   :root[data-theme="light"] {
-    --paper: #eef0ea;
-    --paper-dim: #e2e4da;
-    --paper-line: #c9ccc0;
-    --ink: #14181f;
-    --ink-soft: #454b45;
-    --stamp: #93362a;
-    --stamp-soft: #93362a;
-    --verdigris: #3f6656;
-    --console-bg: #12161c;
-    --console-fg: #dcdccd;
-    --console-dim: #7d8578;
-    --console-line: #262c34;
+    --paper: #eef0ea; --paper-dim: #e2e4da; --paper-line: #c9ccc0;
+    --ink: #14181f; --ink-soft: #454b45;
+    --stamp: #93362a; --verdigris: #3f6656;
+    --console-bg: #12161c; --console-fg: #dcdccd; --console-dim: #7d8578; --console-line: #262c34;
     color-scheme: light;
   }
 
   * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
+  html, body { height: 100%; }
   body {
     margin: 0;
     background: var(--paper);
     color: var(--ink);
     font-family: var(--sans);
-    font-size: 17px;
+    font-size: 16.5px;
     line-height: 1.6;
-    overflow-x: hidden;
+    overflow: hidden;
   }
   ::selection { background: var(--stamp); color: var(--paper); }
-
-  .wrap {
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 0 28px;
-  }
-  .wide {
-    max-width: 780px;
-  }
-
   a { color: var(--stamp); }
-  a:focus-visible, button:focus-visible, .toggle:focus-visible {
-    outline: 2px solid var(--stamp);
-    outline-offset: 3px;
+  code {
+    font-family: var(--mono);
+    font-size: 0.92em;
+    background: var(--paper-dim);
+    border: 1px solid var(--paper-line);
+    border-radius: 3px;
+    padding: 0.05em 0.35em;
   }
-
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--stamp);
+    outline-offset: 2px;
+  }
   h1, h2, h3 {
     font-family: var(--serif);
     font-weight: 600;
@@ -133,54 +104,58 @@
     letter-spacing: -0.01em;
     margin: 0;
   }
-  em.pull {
-    font-family: var(--serif);
-    font-style: italic;
-    font-weight: 500;
-    color: var(--ink);
-  }
+  em.pull { font-family: var(--serif); font-style: italic; font-weight: 500; color: var(--ink); }
+  p { margin: 0 0 1em; }
+  p:last-child { margin-bottom: 0; }
+  .prose { max-width: 60ch; }
+  .prose p + p { margin-top: 1em; }
 
   .eyebrow {
     font-family: var(--mono);
-    font-size: 12.5px;
-    letter-spacing: 0.09em;
+    font-size: 12px;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--stamp);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
   }
-  .eyebrow::before {
-    content: "";
-    width: 22px;
-    height: 1px;
-    background: var(--stamp);
-    display: inline-block;
+  .eyebrow::before { content: ""; width: 20px; height: 1px; background: var(--stamp); display: inline-block; }
+
+  /* ---------- app shell ---------- */
+  .app {
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
   }
 
-  /* ---------- top corner mark ---------- */
-  .corner {
-    position: fixed;
-    top: 20px;
-    right: 24px;
-    z-index: 30;
+  .chrome-top {
+    flex: 0 0 auto;
+    padding: 14px 24px 12px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid var(--paper-line);
   }
-  .corner .mark {
+  .chrome-top .id {
     font-family: var(--mono);
     font-size: 12px;
-    letter-spacing: 0.06em;
     color: var(--ink-soft);
-    border: 1px solid var(--paper-line);
-    border-radius: 3px;
-    padding: 4px 8px;
-    background: var(--paper);
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .chrome-top .id b { color: var(--ink); font-weight: 600; }
+  .step-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-soft);
   }
   .theme-btn {
     font-family: var(--mono);
-    font-size: 12px;
+    font-size: 11.5px;
     background: var(--paper);
     color: var(--ink-soft);
     border: 1px solid var(--paper-line);
@@ -190,537 +165,408 @@
   }
   .theme-btn:hover { color: var(--ink); border-color: var(--ink-soft); }
 
-  /* ---------- hero ---------- */
-  .hero {
-    padding: 96px 0 56px;
+  .progress-track {
+    flex: 0 0 auto;
+    height: 3px;
+    background: var(--paper-dim);
   }
-  .hero h1 {
-    font-size: clamp(34px, 6vw, 52px);
-    line-height: 1.08;
-    margin-top: 18px;
+  .progress-fill {
+    height: 100%;
+    background: var(--stamp);
+    width: 16.67%;
+    transition: width 0.35s ease;
   }
-  .hero .lede {
-    margin-top: 22px;
-    font-size: 19px;
-    color: var(--ink-soft);
-    max-width: 54ch;
-  }
-  .hero .lede strong { color: var(--ink); font-weight: 600; }
+  @media (prefers-reduced-motion: reduce) { .progress-fill { transition: none; } }
 
-  /* ---------- sections & reveal ---------- */
-  section { padding: 64px 0; }
-  section + section { border-top: 1px solid var(--paper-line); }
-  .reveal {
-    opacity: 1;
-    transform: none;
+  .stage {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    position: relative;
   }
+  .step {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 52px 26px 64px;
+    min-height: 100%;
+  }
+  .step.wide { max-width: 780px; }
+  .step[hidden] { display: none; }
+
   @media (prefers-reduced-motion: no-preference) {
-    .reveal {
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
+    .step {
+      animation: stepIn 0.32s ease both;
     }
-    .reveal.in { opacity: 1; transform: none; }
+    .step.dir-back { animation-name: stepInBack; }
+  }
+  @keyframes stepIn {
+    from { opacity: 0; transform: translateX(14px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes stepInBack {
+    from { opacity: 0; transform: translateX(-14px); }
+    to { opacity: 1; transform: none; }
   }
 
-  h2 { font-size: clamp(24px, 3.6vw, 30px); margin-top: 14px; }
-  .section-lede {
-    margin-top: 14px;
-    color: var(--ink-soft);
-    max-width: 62ch;
-    font-size: 16.5px;
-  }
-  p { margin: 0 0 1em; }
-  p:last-child { margin-bottom: 0; }
-  .prose { max-width: 62ch; }
-  .prose p + p { margin-top: 1em; }
+  h1 { font-size: clamp(32px, 5.6vw, 46px); line-height: 1.1; margin-top: 16px; }
+  .lede { margin-top: 20px; font-size: 18.5px; color: var(--ink-soft); max-width: 52ch; }
+  .lede strong { color: var(--ink); font-weight: 600; }
+  h2 { font-size: clamp(22px, 3.4vw, 27px); margin-top: 12px; }
+  .step-lede { margin-top: 12px; color: var(--ink-soft); max-width: 60ch; font-size: 16px; }
 
-  /* ---------- console panel ---------- */
+  /* ---------- console ---------- */
   .console {
-    margin-top: 26px;
+    margin-top: 24px;
     background: var(--console-bg);
     border-radius: 6px;
     overflow: hidden;
     box-shadow: 0 8px 30px -14px rgba(0,0,0,0.5);
     border: 1px solid var(--console-line);
   }
-  .console-bar {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--console-line);
-  }
-  .console-bar span {
-    width: 9px; height: 9px; border-radius: 50%;
-    background: var(--console-line);
-  }
-  .console-bar .title {
-    font-family: var(--mono);
-    font-size: 11.5px;
-    color: var(--console-dim);
-    margin-left: 6px;
-    letter-spacing: 0.03em;
-  }
-  .console-body {
-    font-family: var(--mono);
-    font-size: 13.6px;
-    line-height: 1.7;
-    color: var(--console-fg);
-    padding: 18px 16px;
-    min-height: 132px;
-  }
+  .console-bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; border-bottom: 1px solid var(--console-line); }
+  .console-bar span { width: 9px; height: 9px; border-radius: 50%; background: var(--console-line); }
+  .console-bar .title { font-family: var(--mono); font-size: 11.5px; color: var(--console-dim); margin-left: 6px; letter-spacing: 0.03em; }
+  .console-body { font-family: var(--mono); font-size: 13.4px; line-height: 1.7; color: var(--console-fg); padding: 17px 16px; min-height: 118px; }
   .console-body .ln { white-space: pre-wrap; word-break: break-word; }
   .console-body .prompt { color: var(--verdigris); }
   .console-body .path { color: var(--console-dim); }
-  .console-body .arrow { color: var(--stamp-soft); }
-  .console-body .cursor {
-    display: inline-block; width: 7px; height: 15px;
-    background: var(--verdigris); vertical-align: text-bottom;
-    animation: blink 1s step-end infinite;
-  }
+  .console-body .arrow { color: #c98d7f; }
+  .console-body .cursor { display: inline-block; width: 7px; height: 15px; background: var(--verdigris); vertical-align: text-bottom; animation: blink 1s step-end infinite; }
   @media (prefers-reduced-motion: reduce) { .console-body .cursor { animation: none; } }
   @keyframes blink { 50% { opacity: 0; } }
-
-  .console-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 12px 14px 14px;
-    border-top: 1px solid var(--console-line);
-  }
+  .console-actions { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 14px 14px; border-top: 1px solid var(--console-line); }
   .console-actions button {
-    font-family: var(--mono);
-    font-size: 12.5px;
-    background: transparent;
-    color: var(--console-fg);
-    border: 1px solid var(--console-line);
-    border-radius: 4px;
-    padding: 7px 11px;
-    cursor: pointer;
+    font-family: var(--mono); font-size: 12.3px; background: transparent; color: var(--console-fg);
+    border: 1px solid var(--console-line); border-radius: 4px; padding: 7px 11px; cursor: pointer;
     transition: border-color 0.15s ease, color 0.15s ease;
   }
   .console-actions button:hover:not(:disabled) { border-color: var(--verdigris); color: var(--verdigris); }
   .console-actions button:disabled { opacity: 0.35; cursor: default; }
-  .console-hint {
-    font-family: var(--mono);
-    font-size: 11.5px;
-    color: var(--ink-soft);
-    margin-top: 10px;
-  }
+  .console-hint { font-family: var(--mono); font-size: 11.3px; color: var(--ink-soft); margin-top: 10px; }
 
-  /* ---------- kernel card (real evidence) ---------- */
-  .kernel {
-    margin-top: 20px;
-    background: var(--paper-dim);
-    border: 1px solid var(--paper-line);
-    border-left: 3px solid var(--stamp);
-    border-radius: 3px;
-    padding: 18px 20px;
-  }
-  .kernel .tag {
-    font-family: var(--mono);
-    font-size: 11.5px;
-    letter-spacing: 0.02em;
-    color: var(--stamp);
-    display: block;
-    margin-bottom: 10px;
-    word-break: break-word;
-  }
-  .kernel p {
-    font-size: 15.5px;
-    color: var(--ink-soft);
-  }
-  .kernel .src {
-    display: block;
-    margin-top: 10px;
-    font-family: var(--mono);
-    font-size: 11.5px;
-    color: var(--ink-soft);
-  }
-  .kernel .src a { color: var(--verdigris); }
+  /* ---------- kernel / tension cards ---------- */
+  .kernel { margin-top: 18px; background: var(--paper-dim); border: 1px solid var(--paper-line); border-left: 3px solid var(--stamp); border-radius: 3px; padding: 17px 19px; }
+  .kernel .tag { font-family: var(--mono); font-size: 11.3px; color: var(--stamp); display: block; margin-bottom: 9px; word-break: break-word; }
+  .kernel p { font-size: 15px; color: var(--ink-soft); }
+  .kernel .src { display: block; margin-top: 9px; font-family: var(--mono); font-size: 11.3px; color: var(--ink-soft); }
+
+  .tension { margin-top: 18px; padding: 17px 19px; background: var(--paper-dim); border: 1px solid var(--paper-line); border-radius: 3px; }
+  .tension .lead { font-family: var(--mono); font-size: 11.8px; letter-spacing: 0.02em; color: var(--ink-soft); display: flex; align-items: center; gap: 8px; }
+  .tension .dot { width: 8px; height: 8px; border-radius: 50%; background: #c9a227; display: inline-block; }
+  .tension p { margin-top: 9px; font-size: 15px; color: var(--ink-soft); }
+  .tension .src { margin-top: 8px; display: block; font-family: var(--mono); font-size: 11.3px; color: var(--ink-soft); }
 
   /* ---------- objection ---------- */
-  .objection {
-    margin-top: 8px;
-  }
-  .objection .q {
-    font-size: clamp(21px, 3vw, 26px);
-    line-height: 1.35;
-  }
-  .objection .a {
-    margin-top: 20px;
-  }
+  .objection .q { font-size: clamp(20px, 3vw, 25px); line-height: 1.35; margin-top: 16px; }
+  .objection .a { margin-top: 18px; }
 
-  /* ---------- ledger row (architecture) ---------- */
-  .toggle-row {
-    display: inline-flex;
-    margin-top: 22px;
-    border: 1px solid var(--paper-line);
-    border-radius: 5px;
-    overflow: hidden;
+  /* ---------- concrete/abstract micro-toggle ---------- */
+  .microtabs { display: inline-flex; margin-top: 20px; border: 1px solid var(--paper-line); border-radius: 5px; overflow: hidden; }
+  .microtabs button {
+    font-family: var(--mono); font-size: 12.3px; background: var(--paper); color: var(--ink-soft);
+    border: 0; padding: 7px 13px; cursor: pointer;
   }
-  .toggle-row button {
+  .microtabs button + button { border-left: 1px solid var(--paper-line); }
+  .microtabs button[aria-selected="true"] { background: var(--stamp); color: var(--paper); }
+  .microview[hidden] { display: none; }
+  .microview { margin-top: 20px; }
+
+  .ledger { margin-top: 4px; border-top: 1px solid var(--paper-line); }
+  .ledger-row { display: grid; grid-template-columns: 100px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--paper-line); }
+  .ledger-row .node { font-family: var(--mono); font-size: 12.5px; color: var(--stamp); padding-top: 2px; }
+  .ledger-row .desc { color: var(--ink-soft); font-size: 15px; }
+  .ledger-row .desc strong { color: var(--ink); font-weight: 600; }
+  .ledger-row .rule { display: block; margin-top: 4px; font-family: var(--mono); font-size: 11.3px; color: var(--ink-soft); }
+
+  .ask-console { max-width: 400px; }
+  .ask-note { margin-top: 16px; color: var(--ink-soft); font-size: 14.5px; max-width: 50ch; }
+
+  /* ---------- bottom nav ---------- */
+  .chrome-bottom {
+    flex: 0 0 auto;
+    border-top: 1px solid var(--paper-line);
+    background: var(--paper);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .navbtn {
     font-family: var(--mono);
     font-size: 12.5px;
     letter-spacing: 0.02em;
-    background: var(--paper);
-    color: var(--ink-soft);
-    border: 0;
-    padding: 8px 14px;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--paper-line);
+    border-radius: 5px;
+    padding: 9px 15px;
     cursor: pointer;
   }
-  .toggle-row button + button { border-left: 1px solid var(--paper-line); }
-  .toggle-row button[aria-pressed="true"] {
-    background: var(--stamp);
-    color: var(--paper);
-  }
+  .navbtn:hover:not(:disabled) { border-color: var(--stamp); color: var(--stamp); }
+  .navbtn:disabled { opacity: 0.3; cursor: default; }
+  .navbtn.primary { background: var(--stamp); color: var(--paper); border-color: var(--stamp); }
+  .navbtn.primary:hover:not(:disabled) { opacity: 0.88; color: var(--paper); }
 
-  .zoom-view { margin-top: 24px; }
-  .zoom-view[hidden] { display: none; }
-
-  .ledger {
-    margin-top: 4px;
-    border-top: 1px solid var(--paper-line);
-  }
-  .ledger-row {
-    display: grid;
-    grid-template-columns: 108px 1fr;
-    gap: 18px;
-    padding: 18px 0;
-    border-bottom: 1px solid var(--paper-line);
-  }
-  .ledger-row .node {
+  .stepdots { display: flex; gap: 6px; }
+  .stepdots button {
     font-family: var(--mono);
-    font-size: 13px;
-    color: var(--stamp);
-    padding-top: 2px;
-  }
-  .ledger-row .desc { color: var(--ink-soft); font-size: 15.5px; }
-  .ledger-row .desc strong { color: var(--ink); font-weight: 600; }
-  .ledger-row .rule {
-    display: block;
-    margin-top: 5px;
-    font-family: var(--mono);
-    font-size: 11.5px;
-    color: var(--ink-soft);
-  }
-
-  /* ---------- tension card ---------- */
-  .tension {
-    margin-top: 22px;
-    padding: 18px 20px;
-    background: var(--paper-dim);
+    font-size: 10.5px;
+    width: 26px; height: 26px;
+    border-radius: 50%;
     border: 1px solid var(--paper-line);
-    border-radius: 3px;
-  }
-  .tension .lead {
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: 0.03em;
+    background: var(--paper);
     color: var(--ink-soft);
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    cursor: not-allowed;
+    display: flex; align-items: center; justify-content: center;
   }
-  .tension .dot { width: 8px; height: 8px; border-radius: 50%; background: #c9a227; display: inline-block; }
-  .tension p { margin-top: 10px; font-size: 15.5px; color: var(--ink-soft); }
-  .tension .src { margin-top: 8px; display: block; font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); }
+  .stepdots button.visited { cursor: pointer; color: var(--ink); }
+  .stepdots button.visited:hover { border-color: var(--stamp); color: var(--stamp); }
+  .stepdots button[aria-current="step"] { background: var(--stamp); color: var(--paper); border-color: var(--stamp); cursor: default; }
 
-  /* ---------- ask ---------- */
-  .ask-console { max-width: 420px; }
-  .ask-note { margin-top: 18px; color: var(--ink-soft); font-size: 15px; max-width: 52ch; }
-
-  /* ---------- footer ---------- */
-  footer {
-    padding: 48px 0 80px;
-    color: var(--ink-soft);
-    font-size: 13px;
-  }
-  footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: baseline; }
-  footer a { color: var(--ink-soft); text-decoration-color: var(--paper-line); }
-  footer a:hover { color: var(--stamp); }
-
-  @media (max-width: 620px) {
-    .hero { padding: 76px 0 40px; }
-    section { padding: 48px 0; }
+  @media (max-width: 640px) {
+    .step { padding: 40px 20px 48px; }
+    .chrome-top .id span.repo { display: none; }
     .ledger-row { grid-template-columns: 1fr; gap: 4px; }
-    .corner { top: 14px; right: 14px; }
-    .corner .mark { display: none; }
+    .stepdots button { width: 22px; height: 22px; font-size: 9.5px; }
+    .navbtn { padding: 9px 12px; font-size: 12px; }
   }
 </style>
 
-<div class="corner">
-  <span class="mark">brain-pitch · draft</span>
-  <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle color theme">theme</button>
-</div>
+<div class="app">
 
-<main>
+  <div class="chrome-top">
+    <div class="id"><b>Brain</b><span class="repo">— an interactive pitch</span></div>
+    <div class="step-label" id="stepLabel" aria-live="polite">Step 1 of 6 — The problem</div>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle color theme">theme</button>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
 
-  <section class="hero">
-    <div class="wrap">
-      <p class="eyebrow">a ledger, not a slide deck — 2026-07-16</p>
-      <h1>Your agent already solved this.<br>It just doesn't remember.</h1>
-      <p class="lede">
-        Every new AI coding session starts from zero. The popover-detection bug your
-        agent fixed in one repo last month gets re-derived, slower, in the next repo
-        this month — because nothing carried the fix across the session boundary.
-        <strong>Brain is the git-backed ledger that carries it.</strong>
-      </p>
-    </div>
-  </section>
+  <div class="stage" id="stage">
 
-  <section class="reveal">
-    <div class="wrap wide">
-      <p class="eyebrow">one real query, run by hand</p>
-      <h2>Not a claim. Run it yourself.</h2>
-      <p class="section-lede">
-        Press the buttons in order. Nothing here is scripted marketing copy — this is
-        the actual CLI, and the second command below returns a real entry, filed
-        after a real bug, in a real repo.
-      </p>
-
-      <div class="console">
-        <div class="console-bar">
-          <span></span><span></span><span></span>
-          <span class="title">zsh — pocketzane/</span>
-        </div>
-        <div class="console-body" id="term1"></div>
-        <div class="console-actions">
-          <button type="button" data-step="1" data-target="term1">① brain status</button>
-          <button type="button" data-step="2" data-target="term1" disabled>② brain query "popover detection"</button>
-          <button type="button" data-step="3" data-target="term1" disabled>③ open the source line</button>
-        </div>
-      </div>
-      <p class="console-hint">three clicks. no autoplay — you're driving.</p>
-    </div>
-  </section>
-
-  <section class="reveal">
-    <div class="wrap wide">
-      <p class="eyebrow">the shape of the system</p>
-      <h2>One repo you're in, four you're not.</h2>
-      <p class="section-lede">
-        Your project stays your project. Brain links it to four small git repos —
-        a shared context, not a dependency.
-      </p>
-
-      <div class="toggle-row" role="group" aria-label="Zoom level">
-        <button type="button" id="zoomConcrete" aria-pressed="true">the one example</button>
-        <button type="button" id="zoomAbstract" aria-pressed="false">the whole system</button>
-      </div>
-
-      <div class="zoom-view" id="viewConcrete">
-        <div class="prose">
-          <p>
-            The popover fix you just pulled came from <code>memory</code> — one of
-            four nodes. It didn't appear by magic: someone hit the bug, fixed it,
-            and <em class="pull">proposed</em> the lesson in a drop folder called
-            <code>incoming/</code>. A steward script checked it — is the tag real,
-            is it a duplicate, is the write-up substantial — and only then promoted
-            it into the shared file every linked project can query.
-          </p>
-          <p>
-            That's the whole mechanism behind the command you just ran. Everything
-            below is the same idea at the other three nodes.
-          </p>
-        </div>
-      </div>
-
-      <div class="zoom-view" id="viewAbstract" hidden>
-        <div class="ledger">
-          <div class="ledger-row">
-            <div class="node">memory</div>
-            <div class="desc"><strong>Hard-won lessons</strong> — real bugs, non-obvious decisions, one line each, pointing at the full write-up.
-              <span class="rule">write rule: propose in incoming/ → steward promotes</span>
-            </div>
-          </div>
-          <div class="ledger-row">
-            <div class="node">ideas</div>
-            <div class="desc"><strong>Reusable kernels</strong> — patterns and techniques that outlive any one bug, filed by domain.
-              <span class="rule">write rule: same steward gate, separate repo</span>
-            </div>
-          </div>
-          <div class="ledger-row">
-            <div class="node">tension</div>
-            <div class="desc"><strong>Open forks</strong> — contradictions and tradeoffs held honestly, not prematurely resolved.
-              <span class="rule">write rule: append; resolve = mark, never delete</span>
-            </div>
-          </div>
-          <div class="ledger-row">
-            <div class="node">build</div>
-            <div class="desc"><strong>Your project</strong> — the only node that isn't shared. Code and docs on your own branch.
-              <span class="rule">write rule: yours — Brain never touches it</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="reveal">
-    <div class="wrap">
-      <div class="objection">
-        <p class="eyebrow">the obvious objection</p>
-        <p class="q"><em class="pull">"Why not just a <code>CLAUDE.md</code> file?"</em></p>
-        <div class="a prose">
-          <p>
-            A notes file works for one project, for a while. It has no gate, so
-            every agent that touches it can also silently overwrite it — the
-            actual failure mode that pushed one linked project to steward-gate
-            its own idea file after a whole-file overwrite corrupted it. It has
-            no dedup, so the same lesson gets re-written five times under five
-            slightly different names. And it has no reach — a fix in one repo's
-            notes file stays in that repo.
-          </p>
-          <p>
-            Brain's answer to all three is the same script: <code>steward.py</code>
-            checks schema, domain, substance, and duplication before anything
-            reaches canon, and it's the <em>only</em> thing with write access to
-            the shared file. One contributor's mistake holds a single proposal.
-            It can't take down the file.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="reveal">
-    <div class="wrap wide">
-      <p class="eyebrow">evidence, not adjectives</p>
-      <h2>This page is proof of its own pitch.</h2>
-      <p class="section-lede">
-        Before writing a word of this, the session researched pitch structure and
-        presentation craft, then filed the findings back into Brain — the same
-        steward-gated flow shown above. Here's the actual entry that shaped the
-        section right above this one.
-      </p>
-
-      <div class="kernel">
-        <span class="tag">[PITCH / persuasion / preempt-objections-refutationally]</span>
-        <p>
-          Name the audience's most likely skeptical objection explicitly, then
-          resolve it in the same breath — refutational two-sided messaging
-          reliably out-persuades staying silent about the objection, and also
-          out-persuades raising it without answering it. Particularly true for
-          an audience with domain sophistication, who will generate the
-          objection mentally whether or not the pitch raises it.
+    <section class="step" data-step="1" data-label="The problem">
+      <div class="wrap">
+        <p class="eyebrow">a ledger, not a slide deck — 2026-07-16</p>
+        <h1>Your agent already solved this.<br>It just doesn't remember.</h1>
+        <p class="lede">
+          Every new AI coding session starts from zero. The popover-detection bug
+          your agent fixed in one repo last month gets re-derived, slower, in the
+          next repo this month — because nothing carried the fix across the
+          session boundary. <strong>Brain is the git-backed ledger that carries it.</strong>
         </p>
-        <span class="src">Source: Yale attitude-change tradition; Xu &amp; Petty, SAGE 2025; ICA meta-analysis — high confidence · pappydapimp69/ideas@50f9394</span>
       </div>
+    </section>
 
-      <div class="kernel">
-        <span class="tag">[MOTION / camera / obstacle-pull-in-asymmetric-damping]</span>
-        <p>
-          A first attempt at a "fast" camera pull-in used a high-rate lerp and
-          still failed a hard safety check — a lerp, however fast, is a
-          multi-frame convergence, so for several frames the camera sat farther
-          out than that frame's own required safe distance. The fix: snap the
-          pull-in direction instantly, and reserve easing for the release only,
-          where a delayed release is cosmetic, never unsafe.
+    <section class="step wide" data-step="2" data-label="Watch it work" hidden>
+      <div class="wrap">
+        <p class="eyebrow">one real query, run by hand</p>
+        <h2>Not a claim. Run it yourself.</h2>
+        <p class="step-lede">
+          Press the buttons in order. Nothing here is scripted marketing copy —
+          this is the actual CLI, and the second command below returns a real
+          entry, filed after a real bug, in a real repo.
         </p>
-        <span class="src">Source: first-hand sandbox verification, cross-checked against GameAIPro ch.47 — high confidence · relayed from a linked project's own bug report</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="reveal">
-    <div class="wrap wide">
-      <p class="eyebrow">what Brain doesn't pretend</p>
-      <h2>Not everything gets resolved. That's on the record too.</h2>
-      <p class="section-lede">
-        <code>tension</code> exists because forcing every open question into a
-        false resolution is its own kind of dishonesty. A real, still-open entry
-        from a linked project:
-      </p>
-      <div class="tension">
-        <span class="lead"><span class="dot"></span>T2 · contradiction · determinism vs. a physics-driven renderer</span>
-        <p>
-          Lockstep co-op and exact save/load demand a deterministic sim; a 3D
-          renderer naturally wants physics, which is float-nondeterministic
-          across machines. Held at bay, not dissolved: physics stays cosmetic,
-          sim positions stay advisory — the contradiction resurfaces the moment
-          a later milestone wants real physics to feed combat.
-        </p>
-        <span class="src">tension-ledger.md · leaning 🟡 on M1 evidence, unresolved</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="reveal">
-    <div class="wrap">
-      <p class="eyebrow">the ask</p>
-      <h2>Two lines. That's the whole commitment.</h2>
-      <div class="console ask-console">
-        <div class="console-bar">
-          <span></span><span></span><span></span>
-          <span class="title">zsh — your-repo/</span>
+        <div class="console">
+          <div class="console-bar"><span></span><span></span><span></span><span class="title">zsh — pocketzane/</span></div>
+          <div class="console-body" id="term1"></div>
+          <div class="console-actions">
+            <button type="button" data-step="1" data-target="term1">① brain status</button>
+            <button type="button" data-step="2" data-target="term1" disabled>② brain query "popover detection"</button>
+            <button type="button" data-step="3" data-target="term1" disabled>③ open the source line</button>
+          </div>
         </div>
-        <div class="console-body">
+        <p class="console-hint">three clicks. no autoplay — you're driving.</p>
+      </div>
+    </section>
+
+    <section class="step wide" data-step="3" data-label="How it's built" hidden>
+      <div class="wrap">
+        <p class="eyebrow">the shape of the system</p>
+        <h2>One repo you're in, four you're not.</h2>
+        <p class="step-lede">Your project stays your project. Brain links it to four small git repos — a shared context, not a dependency.</p>
+
+        <div class="microtabs" role="tablist" aria-label="Zoom level">
+          <button type="button" id="mtConcrete" role="tab" aria-selected="true">recap the example</button>
+          <button type="button" id="mtAbstract" role="tab" aria-selected="false">see the whole system</button>
+        </div>
+
+        <div class="microview" id="viewConcrete">
+          <div class="prose">
+            <p>The popover fix you just pulled came from <code>memory</code> — one of four nodes. It didn't appear by magic: someone hit the bug, fixed it, and <em class="pull">proposed</em> the lesson in a drop folder called <code>incoming/</code>. A steward script checked it — is the tag real, is it a duplicate, is the write-up substantial — and only then promoted it into the shared file every linked project can query.</p>
+            <p>That's the whole mechanism behind the command you just ran. The next tab shows the same idea at the other three nodes.</p>
+          </div>
+        </div>
+        <div class="microview" id="viewAbstract" hidden>
+          <div class="ledger">
+            <div class="ledger-row"><div class="node">memory</div><div class="desc"><strong>Hard-won lessons</strong> — real bugs, non-obvious decisions, one line each, pointing at the full write-up.<span class="rule">write rule: propose in incoming/ → steward promotes</span></div></div>
+            <div class="ledger-row"><div class="node">ideas</div><div class="desc"><strong>Reusable kernels</strong> — patterns and techniques that outlive any one bug, filed by domain.<span class="rule">write rule: same steward gate, separate repo</span></div></div>
+            <div class="ledger-row"><div class="node">tension</div><div class="desc"><strong>Open forks</strong> — contradictions and tradeoffs held honestly, not prematurely resolved.<span class="rule">write rule: append; resolve = mark, never delete</span></div></div>
+            <div class="ledger-row"><div class="node">build</div><div class="desc"><strong>Your project</strong> — the only node that isn't shared. Code and docs on your own branch.<span class="rule">write rule: yours — Brain never touches it</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-step="4" data-label="The objection" hidden>
+      <div class="wrap">
+        <div class="objection">
+          <p class="eyebrow">the obvious objection</p>
+          <p class="q"><em class="pull">"Why not just a <code>CLAUDE.md</code> file?"</em></p>
+          <div class="a prose">
+            <p>A notes file works for one project, for a while. It has no gate, so every agent that touches it can also silently overwrite it — the actual failure mode that pushed one linked project to steward-gate its own idea file after a whole-file overwrite corrupted it. It has no dedup, so the same lesson gets re-written five times under five slightly different names. And it has no reach — a fix in one repo's notes file stays in that repo.</p>
+            <p>Brain's answer to all three is the same script: <code>steward.py</code> checks schema, domain, substance, and duplication before anything reaches canon, and it's the <em>only</em> thing with write access to the shared file. One contributor's mistake holds a single proposal. It can't take down the file.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step wide" data-step="5" data-label="The evidence" hidden>
+      <div class="wrap">
+        <p class="eyebrow">evidence, not adjectives</p>
+        <h2>This page is proof of its own pitch.</h2>
+        <p class="step-lede">Before writing a word of this, the session researched pitch structure, then filed the findings back into Brain — the same steward-gated flow from the last step. Here's the entry that shaped the objection you just read, and a reminder that not everything gets resolved.</p>
+
+        <div class="kernel">
+          <span class="tag">[PITCH / persuasion / preempt-objections-refutationally]</span>
+          <p>Name the audience's most likely skeptical objection explicitly, then resolve it in the same breath — refutational two-sided messaging reliably out-persuades staying silent about the objection, and also out-persuades raising it without answering it.</p>
+          <span class="src">Source: Yale attitude-change tradition; Xu &amp; Petty, SAGE 2025; ICA meta-analysis — high confidence · pappydapimp69/ideas@50f9394</span>
+        </div>
+
+        <div class="tension">
+          <span class="lead"><span class="dot"></span>T2 · contradiction · determinism vs. a physics-driven renderer</span>
+          <p>Lockstep co-op and exact save/load demand a deterministic sim; a 3D renderer naturally wants physics, which is float-nondeterministic across machines. Held at bay, not dissolved — physics stays cosmetic, sim positions stay advisory, and the contradiction resurfaces the moment a later milestone wants real physics to feed combat.</p>
+          <span class="src">tension-ledger.md · leaning 🟡 on M1 evidence, unresolved</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-step="6" data-label="The ask" hidden>
+      <div class="wrap">
+        <p class="eyebrow">the ask</p>
+        <h2>Two lines. That's the whole commitment.</h2>
+        <div class="console ask-console">
+          <div class="console-bar"><span></span><span></span><span></span><span class="title">zsh — your-repo/</span></div>
+          <div class="console-body">
 <div class="ln"><span class="prompt">$</span> brain install</div>
 <div class="ln"><span class="prompt">$</span> brain link<span class="cursor"></span></div>
+          </div>
         </div>
+        <p class="ask-note"><code>read-only</code> mode queries and stays local — nothing you write leaves your machine until you switch to <code>full</code> and run <code>sync</code> yourself. There's no autopilot state to opt out of later.</p>
       </div>
-      <p class="ask-note">
-        <code>read-only</code> mode queries and stays local — nothing you write
-        leaves your machine until you switch to <code>full</code> and run
-        <code>sync</code> yourself. There's no autopilot state to opt out of later.
-      </p>
-    </div>
-  </section>
+    </section>
 
-</main>
-
-<footer>
-  <div class="wrap">
-    <span>Brain — orchestration node, four repos, one CLI.</span>
-    <span>Sourced from real commits in pappydapimp69/ideas, /memory, and /tension.</span>
   </div>
-</footer>
+
+  <div class="chrome-bottom">
+    <button class="navbtn" id="prevBtn" type="button">← Back</button>
+    <div class="stepdots" id="stepDots" role="tablist" aria-label="Jump to a visited step"></div>
+    <button class="navbtn primary" id="nextBtn" type="button">Continue →</button>
+  </div>
+
+</div>
 
 <script>
 (function () {
-  // theme toggle
   var root = document.documentElement;
-  var btn = document.getElementById('themeBtn');
+  var themeBtn = document.getElementById('themeBtn');
   function currentTheme() {
     var explicit = root.getAttribute('data-theme');
     if (explicit) return explicit;
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
-  btn.addEventListener('click', function () {
+  themeBtn.addEventListener('click', function () {
     root.setAttribute('data-theme', currentTheme() === 'dark' ? 'light' : 'dark');
   });
 
-  // reveal on scroll
-  var targets = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window && targets.length) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-      });
-    }, { threshold: 0.12 });
-    targets.forEach(function (t) { io.observe(t); });
-  } else {
-    targets.forEach(function (t) { t.classList.add('in'); });
+  var steps = Array.prototype.slice.call(document.querySelectorAll('.step'));
+  var total = steps.length;
+  var current = 1;
+  var maxVisited = 1;
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var stage = document.getElementById('stage');
+  var stepLabel = document.getElementById('stepLabel');
+  var progressFill = document.getElementById('progressFill');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var dotsWrap = document.getElementById('stepDots');
+
+  steps.forEach(function (s, i) {
+    var n = i + 1;
+    var dot = document.createElement('button');
+    dot.type = 'button';
+    dot.textContent = String(n);
+    dot.setAttribute('aria-label', 'Step ' + n + ': ' + s.getAttribute('data-label'));
+    dot.addEventListener('click', function () {
+      if (n <= maxVisited) goTo(n, n < current);
+    });
+    dotsWrap.appendChild(dot);
+  });
+  var dotEls = Array.prototype.slice.call(dotsWrap.children);
+
+  function render(dir) {
+    steps.forEach(function (s) {
+      var n = Number(s.getAttribute('data-step'));
+      if (n === current) {
+        s.hidden = false;
+        s.classList.remove('dir-back');
+        if (!prefersReduced) {
+          s.style.animation = 'none';
+          void s.offsetWidth;
+          s.style.animation = '';
+          if (dir === 'back') s.classList.add('dir-back');
+        }
+      } else {
+        s.hidden = true;
+      }
+    });
+    var label = steps[current - 1].getAttribute('data-label');
+    stepLabel.textContent = 'Step ' + current + ' of ' + total + ' — ' + label;
+    progressFill.style.width = (current / total * 100) + '%';
+    prevBtn.disabled = current === 1;
+    nextBtn.hidden = current === total;
+    nextBtn.textContent = current === total - 1 ? 'Continue →' : 'Continue →';
+    dotEls.forEach(function (d, i) {
+      var n = i + 1;
+      d.classList.toggle('visited', n <= maxVisited);
+      if (n === current) d.setAttribute('aria-current', 'step');
+      else d.removeAttribute('aria-current');
+    });
+    stage.scrollTop = 0;
   }
 
-  // zoom toggle (ladder of abstraction)
-  var bConcrete = document.getElementById('zoomConcrete');
-  var bAbstract = document.getElementById('zoomAbstract');
-  var vConcrete = document.getElementById('viewConcrete');
-  var vAbstract = document.getElementById('viewAbstract');
+  function goTo(n, isBack) {
+    current = Math.max(1, Math.min(total, n));
+    if (current > maxVisited) maxVisited = current;
+    render(isBack ? 'back' : 'fwd');
+  }
+
+  prevBtn.addEventListener('click', function () { goTo(current - 1, true); });
+  nextBtn.addEventListener('click', function () { goTo(current + 1, false); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.target.tagName === 'BUTTON' && e.key === ' ') return;
+    if (e.key === 'ArrowRight') { if (current < total) goTo(current + 1, false); }
+    if (e.key === 'ArrowLeft') { if (current > 1) goTo(current - 1, true); }
+  });
+
+  render();
+
+  // micro zoom toggle (ladder of abstraction) — inside step 3
+  var mtConcrete = document.getElementById('mtConcrete');
+  var mtAbstract = document.getElementById('mtAbstract');
+  var viewConcrete = document.getElementById('viewConcrete');
+  var viewAbstract = document.getElementById('viewAbstract');
   function setZoom(which) {
     var concrete = which === 'concrete';
-    bConcrete.setAttribute('aria-pressed', String(concrete));
-    bAbstract.setAttribute('aria-pressed', String(!concrete));
-    vConcrete.hidden = !concrete;
-    vAbstract.hidden = concrete;
+    mtConcrete.setAttribute('aria-selected', String(concrete));
+    mtAbstract.setAttribute('aria-selected', String(!concrete));
+    viewConcrete.hidden = !concrete;
+    viewAbstract.hidden = concrete;
   }
-  bConcrete.addEventListener('click', function () { setZoom('concrete'); });
-  bAbstract.addEventListener('click', function () { setZoom('abstract'); });
+  mtConcrete.addEventListener('click', function () { setZoom('concrete'); });
+  mtAbstract.addEventListener('click', function () { setZoom('abstract'); });
 
-  // hand-driven terminal, step by step, no autoplay
+  // hand-driven terminal demo — inside step 2
   var term = document.getElementById('term1');
   var buttons = document.querySelectorAll('[data-target="term1"]');
   var lines = {
@@ -741,8 +587,7 @@
     ]
   };
   function printStep(step) {
-    var group = lines[step];
-    group.forEach(function (html) {
+    lines[step].forEach(function (html) {
       var div = document.createElement('div');
       div.className = 'ln';
       div.innerHTML = html;
