@@ -363,11 +363,11 @@
     </section>
 
     <!-- 4 : live CLI #2 (continues state) -->
-    <section class="step cli" data-step="5" data-label="Record & keep it private" hidden>
+    <section class="step cli" data-step="5" data-label="Record it — your call" hidden>
       <div class="wrap">
         <p class="eyebrow">same session, continued — you're still driving</p>
-        <h2>You build something. It records. It stays yours.</h2>
-        <p class="step-lede">Say you just built this very page and hit that title-bar overlap bug. Watch the lesson get captured — then watch where it lives, and what turning Brain off actually does.</p>
+        <h2>You build something. It records. You decide where it goes.</h2>
+        <p class="step-lede">Say you just built this page and hit that title-bar overlap bug. Watch the lesson get captured, confirm it hasn't gone anywhere yet — then give it back on purpose, and see how the off-switch works. Every step is a command <em>you</em> run.</p>
         <div class="console">
           <div class="console-bar"><span></span><span></span><span></span><span class="title">zsh — brain-pitch/</span><span class="live">live</span></div>
           <div class="console-body" id="termB"></div>
@@ -541,6 +541,15 @@
       out.push({h:'<span class="ok">✓</span> captured 1 lesson → <span class="path">.brain/memory/incoming/2026-07-16__flex-title-wraps.md</span>'});
       out.push({h:'&nbsp;&nbsp;<span class="tag">[browser][css][flexbox]</span> the title-bar label that wrapped and'});
       out.push({h:'&nbsp;&nbsp;overlapped on a narrow screen — needs nowrap + min-width:0'});
+    } else if(sub==='sync'){ var had=engine.local.length; engine.local=[];
+      if(engine.mode==='read-only'){
+        out.push({h:'<span class="arrow">→</span> verifying '+had+' local proposal…'});
+        out.push({h:'<span class="ok">✓</span> promoted '+had+' into your LOCAL canon — read-only, nothing pushed'});
+      } else {
+        out.push({h:'<span class="arrow">→</span> verifying '+had+' local proposal through main…'});
+        out.push({h:'<span class="ok">✓</span> promoted '+had+' → shared logbook (pushed to pappydapimp69/memory)'});
+      }
+      out.push({h:'&nbsp;&nbsp;local: 0 stub(s), 0 proposal(s) awaiting sync'});
     } else if(sub==='disable'){ engine.enabled=false;
       out.push({h:'<span class="ok">✓</span> link disabled — local store frozen; `brain enable` to resume'});
     } else if(sub==='enable'){ engine.enabled=true;
@@ -577,7 +586,10 @@
       {cmd:'brain query "title bar"', note:function(){ return engine.mode==='read-only'
         ? 'That LOCAL result is the exact lesson <code>brain mine</code> just captured a moment ago — now saved and searchable on <b>your</b> computer (LOCAL = yours only). And because you chose <b>read-only</b>, it <b>can’t</b> reach the shared logbook at all — even <code>brain sync</code> just files it into your own copy. It cannot leave your machine, by design.'
         : 'That LOCAL result is the exact lesson <code>brain mine</code> just captured a moment ago — now saved and searchable on <b>your</b> computer (LOCAL = yours only). It still says "awaiting sync": it has <b>not</b> gone to the shared logbook. Only <code>brain sync</code> sends it there, and only when you choose to.'; }},
-      {cmd:'brain disable', note:'Turned off = nothing runs and nothing gets sent anywhere. Your saved lessons stay frozen exactly where they are — private, still on your computer. <b>brain enable</b> switches it back on. That’s the whole privacy story: you opt in, you can undo it, and it stays on your machine unless you choose otherwise.'}
+      {cmd:'brain sync', note:function(){ return engine.mode==='read-only'
+        ? 'In <b>read-only</b>, <code>sync</code> just files it into your own permanent records — still nothing pushed anywhere. To actually share, you\'d switch to <b>full</b> first. Either way it\'s a command you run, never automatic.'
+        : '<b>There\'s the give-back.</b> One command you chose to run, and your title-bar fix is now in the shared logbook — so the next person who hits it pulls <em>your</em> fix, exactly like you pulled the menu one a minute ago. Notice: it only moved because you ran <code>sync</code> yourself. That resolves the "awaiting sync" — nothing left until you said so.'; }},
+      {cmd:'brain disable', note:'And whenever you want out: turned off = nothing runs and nothing gets sent anywhere. Anything still local stays frozen, private, on your computer. <b>brain enable</b> switches it back on. That\'s the whole deal: you opt in, you choose what you share, you can stop any time.'}
     ]
   };
 
