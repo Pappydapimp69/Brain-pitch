@@ -273,7 +273,7 @@
         <p class="step-lede">Two short commands, and this project can now read every lesson every other connected project has ever written down — and add its own. That fix wasn't anywhere in your own files. You pulled it anyway.</p>
         <div class="pairs">
           <div class="pair"><span class="cmd">brain install</span><h3>Sets the tool up on your computer</h3><p>A one-time step. Nothing is connected or shared yet — it just makes the <code>brain</code> command available to type.</p></div>
-          <div class="pair"><span class="cmd">brain link</span><h3>Connects this project to the logbook</h3><p>You choose how it takes part — <em class="pull">read-only</em> by default (reads lessons, never sends anything out); <em class="pull">full</em> can also add to the shared logbook, but only when you run the <code>brain sync</code> command yourself. Switch anytime.</p></div>
+          <div class="pair"><span class="cmd">brain link</span><h3>Connects this project to the logbook</h3><p>Either way, you get <em>every</em> lesson the shared logbook holds. <em class="pull">read-only</em> (the default) stops there — all of the benefit, none of your own writing goes out. <em class="pull">full</em> also lets you give your lessons back, and only when you run <code>brain sync</code> yourself. Switch anytime.</p></div>
         </div>
         <p class="step-lede" style="margin-top:18px">The win isn't "an AI wrote some code." It's that the <em class="pull">second</em> time anyone runs into a problem, they don't pay full price for it again. Next screen: watch a lesson get written down — and see exactly where it does and doesn't go.</p>
       </div>
@@ -339,7 +339,7 @@
 <div class="ln"><span class="prompt">$</span> brain link<span class="cursor"></span></div>
           </div>
         </div>
-        <p class="ask-note">Start in <code>read-only</code> and nothing you write ever leaves your computer. Switch to <code>full</code> and it still only sends anything out when <em>you</em> run the <code>brain sync</code> command yourself. You saw it: turning it off freezes everything in place, private, on your machine. There's nothing running quietly in the background to switch off.</p>
+        <p class="ask-note">Start in <code>read-only</code> — you get every lesson the logbook holds, and nothing you write ever leaves your computer. Switch to <code>full</code> when you want to give back, and even then it only sends anything out when <em>you</em> run <code>brain sync</code> yourself. You saw it: turning it off freezes everything in place, private, on your machine. There's nothing running quietly in the background to switch off.</p>
       </div>
     </section>
 
@@ -443,7 +443,7 @@
   var SCRIPTS={
     A:[
       {cmd:'brain install'},
-      {cmd:'brain link', choice:true, note:'<b>Your call — and it pauses here for it.</b> <b>read-only</b> is the default: it reads every shared lesson but writes nothing outward, ever. <b>full</b> can also contribute back, but only when you run <code>brain sync</code>. You can switch anytime. For this walkthrough, pick <b>full</b> so you can see the contribution half too — but read-only is what you’d reach for by default.'},
+      {cmd:'brain link', choice:true, note:'<b>Your call — it pauses here for it.</b> Here’s the key thing: <b>both modes give you exactly the same thing coming in</b> — every lesson every other project has ever written down is yours to pull. The only difference is what flows back <em>out</em>. <b>read-only</b> (the default) takes freely but never sends anything back — you get the full benefit of everyone’s work without contributing your own. <b>full</b> also lets you give your lessons back to the shared logbook, and even then only when you run <code>brain sync</code> yourself. Switch anytime. Pick <b>full</b> for this walkthrough so you can see the giving-back half too.'},
       {cmd:'brain status'},
       {cmd:'brain query "popover"', note:'That entry was never in your code or your notes. A different project filed it after a real bug — you just pulled the fix for free.'}
     ],
@@ -542,8 +542,8 @@
     return new Promise(function(resolve){
       appendNote(cli, step.note);   // the pause / explanation, read-only marked default
       var wrap=document.createElement('div'); wrap.className='ln choice';
-      wrap.innerHTML='<button type="button" class="choice-btn" data-mode="read-only" data-num="1">[1] read-only · <span class="chip">default</span></button>'
-                   +'<button type="button" class="choice-btn recommend" data-mode="full" data-num="2">[2] full · <span class="chip">for this tour</span></button>';
+      wrap.innerHTML='<button type="button" class="choice-btn" data-mode="read-only" data-num="1">[1] read-only · <span class="chip">receive only · default</span></button>'
+                   +'<button type="button" class="choice-btn recommend" data-mode="full" data-num="2">[2] full · <span class="chip">receive + give back</span></button>';
       cli.termEl.appendChild(wrap); scrollTerm(cli);
       var fired=false;
       function pick(mode,num){
