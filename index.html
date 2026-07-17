@@ -434,7 +434,7 @@
     '`[editor][prosemirror]` A "select-all + delete" clear may leave default nodes; align by trailing position and verify node counts. → projects/pappydapimp69__pocketzane.md#E3',
     '`[process][observability]` Instrument the lowest-level primitive first (does the click even dispatch?) — a captured error beats a clever guess. → projects/pappydapimp69__pocketzane.md#E4'
   ];
-  var LOCAL_LESSON='`[browser][css][flexbox]` A single-line flex label with no `white-space:nowrap` wraps on a narrow viewport without its box growing, so it overlaps the next element — give it nowrap + overflow:hidden + min-width:0. → .brain/memory/incoming/2026-07-16__flex-title-wraps.md';
+  var LOCAL_LESSON='`[browser][css][flexbox]` A single-line title-bar label with no `white-space:nowrap` wraps on a narrow screen without its box growing, so it overlaps the next element — give it nowrap + overflow:hidden + min-width:0. → .brain/memory/incoming/2026-07-16__flex-title-wraps.md';
 
   function norm(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim(); }
   function matches(block, terms){
@@ -477,11 +477,12 @@
       out.push({h:''}); out.push({h:'<span class="hdr">## tension (0)</span>'});
       out.push({h:''}); out.push({h:'<span class="hdr">## ideas (0)</span>'});
     } else if(sub==='mine'){ if(engine.local.length===0) engine.local.push(LOCAL_LESSON);
-      out.push({h:'<span class="ok">✓</span> mine — evidence for pappydapimp69/brain-pitch (last 5 commits)'});
-      out.push({h:'<span class="path">--- AGENT INSTRUCTION (abbreviated) ---</span>'});
-      out.push({h:'&nbsp;&nbsp;<span class="arrow">→</span> file each real bug/decision as a full proposal into'});
-      out.push({h:'&nbsp;&nbsp;&nbsp;&nbsp;<span class="path">.brain/memory/incoming/</span>  (your local store, on your disk)'});
-      out.push({h:'&nbsp;&nbsp;<span class="arrow">·</span> agent filed: 2026-07-16__flex-title-wraps.md'});
+      out.push({h:'<span class="ok">✓</span> mine — read 5 commits + this session for pappydapimp69/brain-pitch'});
+      out.push({h:'&nbsp;&nbsp;<span class="arrow">→</span> found 1 real bug worth keeping. Writing it down…'});
+      out.push({h:''});
+      out.push({h:'<span class="ok">✓</span> captured 1 lesson → <span class="path">.brain/memory/incoming/2026-07-16__flex-title-wraps.md</span>'});
+      out.push({h:'&nbsp;&nbsp;<span class="tag">[browser][css][flexbox]</span> the title-bar label that wrapped and'});
+      out.push({h:'&nbsp;&nbsp;overlapped on a narrow screen — needs nowrap + min-width:0'});
     } else if(sub==='disable'){ engine.enabled=false;
       out.push({h:'<span class="ok">✓</span> link disabled — local store frozen; `brain enable` to resume'});
     } else if(sub==='enable'){ engine.enabled=true;
@@ -516,8 +517,8 @@
       {cmd:'brain mine', note:'This reads your recent work and this very conversation, then writes any lessons worth keeping into <b>.brain/</b> — a folder that lives inside your own project. Nothing left your computer.'},
       {cmd:'brain status'},
       {cmd:'brain query "title bar"', note:function(){ return engine.mode==='read-only'
-        ? 'There it is — saved and searchable on <b>your</b> computer, marked LOCAL (meaning: yours only). And because you chose <b>read-only</b>, it <b>can’t</b> reach the shared logbook at all — even the <code>brain sync</code> command just files it into your own copy. It cannot leave your machine, by design.'
-        : 'There it is — saved and searchable on <b>your</b> computer, marked LOCAL (meaning: yours only). It still says "awaiting sync" — it has <b>not</b> gone to the shared logbook. Only the <code>brain sync</code> command sends it there, and only when you choose to run it.'; }},
+        ? 'That LOCAL result is the exact lesson <code>brain mine</code> just captured a moment ago — now saved and searchable on <b>your</b> computer (LOCAL = yours only). And because you chose <b>read-only</b>, it <b>can’t</b> reach the shared logbook at all — even <code>brain sync</code> just files it into your own copy. It cannot leave your machine, by design.'
+        : 'That LOCAL result is the exact lesson <code>brain mine</code> just captured a moment ago — now saved and searchable on <b>your</b> computer (LOCAL = yours only). It still says "awaiting sync": it has <b>not</b> gone to the shared logbook. Only <code>brain sync</code> sends it there, and only when you choose to.'; }},
       {cmd:'brain disable', note:'Turned off = nothing runs and nothing gets sent anywhere. Your saved lessons stay frozen exactly where they are — private, still on your computer. <b>brain enable</b> switches it back on. That’s the whole privacy story: you opt in, you can undo it, and it stays on your machine unless you choose otherwise.'}
     ]
   };
