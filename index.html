@@ -244,18 +244,18 @@
     <!-- 1 -->
     <section class="step" data-step="1" data-label="The problem">
       <div class="wrap">
-        <p class="eyebrow">a ledger, not a slide deck — 2026-07-16</p>
-        <h1>Your agent already solved this.<br>It just doesn't remember.</h1>
-        <p class="lede">Every new AI coding session starts from zero. The popover-detection bug your agent fixed in one repo last month gets re-derived, slower, in the next repo this month — because nothing carried the fix across the session boundary. <strong>Brain is the git-backed ledger that carries it — and the terminal on the next screen is the real thing, not a recording.</strong></p>
+        <p class="eyebrow">a logbook, not a slide deck — 2026-07-16</p>
+        <h1>Your AI already solved this.<br>It just doesn't remember.</h1>
+        <p class="lede">Every time you open a fresh chat with an AI coding assistant, it starts from nothing — it can't remember what it worked out with you last time. So a tricky bug it fixed in one project last month gets puzzled out all over again, slower, in the next project this month. <strong>Brain is a shared logbook that carries those lessons forward — and the black command window on the next screen is real. You'll actually run it; it isn't a recording.</strong></p>
       </div>
     </section>
 
     <!-- 2 : live CLI #1 -->
     <section class="step cli" data-step="2" data-label="Set it up, use it" hidden>
       <div class="wrap">
-        <p class="eyebrow">a real terminal — you run it</p>
+        <p class="eyebrow">a real command window — you run it</p>
         <h2>Set it up. Then pull a fix you never wrote.</h2>
-        <p class="step-lede">Run the commands in order. This is a real <code>brain</code> engine running in your browser over a real snapshot of the repos — the query below returns an actual lesson filed after an actual bug.</p>
+        <p class="step-lede">The dark panel below is a <em class="pull">terminal</em> — the text window where you type short commands to your computer. This one really works, right here in the page. Click the commands in order; the last one searches the real shared logbook and pulls back an actual lesson someone filed after a real bug.</p>
         <div class="console">
           <div class="console-bar"><span></span><span></span><span></span><span class="title">zsh — your-project/</span><span class="live">live</span></div>
           <div class="console-body" id="termA"></div>
@@ -270,12 +270,12 @@
       <div class="wrap">
         <p class="eyebrow">what those two commands bought you</p>
         <h2>You linked one project to a shared memory.</h2>
-        <p class="step-lede">Two commands, and this project can now read every lesson every other linked project ever filed — and contribute back. That popover fix wasn't in your codebase or your notes. You pulled it anyway.</p>
+        <p class="step-lede">Two short commands, and this project can now read every lesson every other connected project has ever written down — and add its own. That fix wasn't anywhere in your own files. You pulled it anyway.</p>
         <div class="pairs">
-          <div class="pair"><span class="cmd">brain install</span><h3>Puts the tool on PATH</h3><p>One-time, per machine. Nothing is linked or shared yet — it just makes <code>brain</code> runnable.</p></div>
-          <div class="pair"><span class="cmd">brain link</span><h3>Joins this repo to the ledger</h3><p>Picks how this project participates — <em class="pull">read-only</em> by default (pulls lessons, never writes out); <em class="pull">full</em> can also contribute, but only when you run <code>brain sync</code>. Switch anytime.</p></div>
+          <div class="pair"><span class="cmd">brain install</span><h3>Sets the tool up on your computer</h3><p>A one-time step. Nothing is connected or shared yet — it just makes the <code>brain</code> command available to type.</p></div>
+          <div class="pair"><span class="cmd">brain link</span><h3>Connects this project to the logbook</h3><p>You choose how it takes part — <em class="pull">read-only</em> by default (reads lessons, never sends anything out); <em class="pull">full</em> can also add to the shared logbook, but only when you run the <code>brain sync</code> command yourself. Switch anytime.</p></div>
         </div>
-        <p class="step-lede" style="margin-top:18px">The efficiency isn't "an AI wrote code." It's that the <em class="pull">second</em> time anyone hits a problem, they don't pay full price for it. Next screen: watch a lesson get recorded — and see exactly where it does and doesn't go.</p>
+        <p class="step-lede" style="margin-top:18px">The win isn't "an AI wrote some code." It's that the <em class="pull">second</em> time anyone runs into a problem, they don't pay full price for it again. Next screen: watch a lesson get written down — and see exactly where it does and doesn't go.</p>
       </div>
     </section>
 
@@ -299,10 +299,10 @@
       <div class="wrap">
         <div class="objection">
           <p class="eyebrow">the obvious objection</p>
-          <p class="q"><em class="pull">"Why not just a <code>CLAUDE.md</code> file?"</em></p>
+          <p class="q"><em class="pull">"Why not just keep notes in a plain file?"</em></p>
           <div class="a prose">
-            <p>A notes file works for one project, for a while. It has no gate, so every agent that touches it can also silently overwrite it — the actual failure mode that pushed one linked project to steward-gate its own idea file after a whole-file overwrite corrupted it. It has no dedup, so the same lesson gets re-written five times under five slightly different names. And it has no reach — a fix in one repo's notes file stays in that repo.</p>
-            <p>Brain's answer to all three is the same gate: a steward script checks schema, domain, substance, and duplication before anything reaches shared canon, and it's the <em>only</em> thing with write access to it. One contributor's mistake holds a single proposal. It can't take down the file.</p>
+            <p>A notes file works for one project, for a while — and plenty of people do exactly that (an AI assistant will happily read a file you leave for it). But nothing guards it. Any assistant that edits the file can also wipe it by accident — which is exactly what happened to one project here, until a whole-file overwrite erased its notes. Nothing catches repeats, so the same lesson piles up five times under five slightly different names. And it can't travel — a fix written in one project's file stays stuck in that project.</p>
+            <p>Brain fixes all three with one gatekeeper. A single checker program reads every new entry — is it well-formed, is it actually new, is it worth keeping — before it's allowed to join the shared logbook, and it's the <em>only</em> thing permitted to write there. So one person's mistake sets aside that one entry for a human to look at. It can never take down everyone else's.</p>
           </div>
         </div>
       </div>
@@ -313,7 +313,7 @@
       <div class="wrap">
         <p class="eyebrow">evidence, not adjectives</p>
         <h2>This page is proof of its own pitch.</h2>
-        <p class="step-lede">The lesson you watched get recorded is real — it's how this page's own layout bug entered the ledger. And Brain doesn't pretend everything resolves: here's a real, still-open fork from a linked project.</p>
+        <p class="step-lede">The lesson you watched get written down is real — it's how this page's own layout bug entered the logbook. Don't worry about reading every word of the two entries below; that's the point. They're actual, unedited records in the system's own shorthand — and Brain doesn't pretend everything gets solved. The second one is a real, still-unsettled question a project left open on purpose.</p>
         <div class="kernel">
           <span class="tag">[PITCH / persuasion / preempt-objections-refutationally]</span>
           <p>Name the audience's most likely skeptical objection explicitly, then resolve it in the same breath — refutational two-sided messaging reliably out-persuades staying silent about the objection, and also out-persuades raising it without answering it.</p>
@@ -339,7 +339,7 @@
 <div class="ln"><span class="prompt">$</span> brain link<span class="cursor"></span></div>
           </div>
         </div>
-        <p class="ask-note">Start in <code>read-only</code> and nothing you write ever leaves your machine. Switch to <code>full</code> and it still only pushes when <em>you</em> run <code>brain sync</code>. You saw it: disabling freezes everything in place, private, on your disk. There's no autopilot to opt out of.</p>
+        <p class="ask-note">Start in <code>read-only</code> and nothing you write ever leaves your computer. Switch to <code>full</code> and it still only sends anything out when <em>you</em> run the <code>brain sync</code> command yourself. You saw it: turning it off freezes everything in place, private, on your machine. There's nothing running quietly in the background to switch off.</p>
       </div>
     </section>
 
@@ -448,12 +448,12 @@
       {cmd:'brain query "popover"', note:'That entry was never in your code or your notes. A different project filed it after a real bug — you just pulled the fix for free.'}
     ],
     B:[
-      {cmd:'brain mine', note:'Mining reads your commits and this session and writes lessons into <b>.brain/</b> — a folder inside your own project. Nothing left your machine.'},
+      {cmd:'brain mine', note:'This reads your recent work and this very conversation, then writes any lessons worth keeping into <b>.brain/</b> — a folder that lives inside your own project. Nothing left your computer.'},
       {cmd:'brain status'},
       {cmd:'brain query "title bar"', note:function(){ return engine.mode==='read-only'
-        ? 'There it is — recorded and queryable in <b>your</b> environment, under LOCAL. And because you linked <b>read-only</b>, it <b>cannot</b> reach the shared repo at all — even <code>brain sync</code> only promotes into your own local canon. Nothing leaves your machine, by construction.'
-        : 'There it is — recorded and queryable in <b>your</b> environment, under LOCAL. Still "awaiting sync": it has <b>not</b> reached the shared repo. Only <code>brain sync</code> does that, and only when you run it.'; }},
-      {cmd:'brain disable', note:'Disabled = nothing runs, nothing syncs. Your local lessons are frozen in place, private, still on your disk. <b>brain enable</b> resumes. That’s the whole privacy story: opt-in, reversible, local by default.'}
+        ? 'There it is — saved and searchable on <b>your</b> computer, marked LOCAL (meaning: yours only). And because you chose <b>read-only</b>, it <b>can’t</b> reach the shared logbook at all — even the <code>brain sync</code> command just files it into your own copy. It cannot leave your machine, by design.'
+        : 'There it is — saved and searchable on <b>your</b> computer, marked LOCAL (meaning: yours only). It still says "awaiting sync" — it has <b>not</b> gone to the shared logbook. Only the <code>brain sync</code> command sends it there, and only when you choose to run it.'; }},
+      {cmd:'brain disable', note:'Turned off = nothing runs and nothing gets sent anywhere. Your saved lessons stay frozen exactly where they are — private, still on your computer. <b>brain enable</b> switches it back on. That’s the whole privacy story: you opt in, you can undo it, and it stays on your machine unless you choose otherwise.'}
     ]
   };
 
@@ -501,7 +501,7 @@
     var d=document.createElement('div'); d.className='ln';
     d.innerHTML='<span class="prompt">$</span> '+esc(cmd)+'<span class="cursor"></span>';
     cli.termEl.appendChild(d); scrollTerm(cli);
-    return delay(reduced?0:460).then(function(){
+    return delay(reduced?0:680).then(function(){
       d.innerHTML='<span class="prompt">$</span> '+esc(cmd);
       scrollback.push({h:'<span class="prompt">$</span> '+esc(cmd)});
     });
@@ -512,7 +512,7 @@
     return lines.reduce(function(chain,o){
       return chain.then(function(){
         cli.termEl.appendChild(lineEl(o)); scrollback.push(o); scrollTerm(cli);
-        return delay(plain(o.h)===''?55:120);
+        return delay(plain(o.h)===''?95:215);
       });
     }, Promise.resolve());
   }
