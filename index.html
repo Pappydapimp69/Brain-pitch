@@ -76,6 +76,7 @@
   .step{ max-width:680px; margin:0 auto; padding:40px 26px; min-height:100%;
          display:flex; flex-direction:column; }
   .step.cli{ max-width:940px; }
+  .step.movie{ max-width:640px; }
   .step>.wrap{ width:100%; margin-top:auto; margin-bottom:auto; }
   .step[hidden]{ display:none; }
   @media (prefers-reduced-motion:no-preference){
@@ -159,7 +160,8 @@
   .sim-head .sim-count{ color:var(--console-fg); font-variant-numeric:tabular-nums; }
   .sim-head .sim-count.give{ color:var(--verdigris); font-weight:600; }
   .sim-canvas{ display:block; width:100%; height:230px; }
-  @media (max-width:640px){ .sim-canvas{ height:186px; } }
+  .sim-canvas.tall{ height:340px; }
+  @media (max-width:640px){ .sim-canvas{ height:186px; } .sim-canvas.tall{ height:250px; } }
   .sim-foot{ padding:9px 14px; border-top:1px solid var(--console-line);
              font-family:var(--mono); font-size:11px; color:var(--console-dim); }
   .sim-bar{ display:flex; align-items:center; gap:12px; margin-top:14px; flex-wrap:wrap; }
@@ -257,7 +259,7 @@
 <div class="app">
   <div class="chrome-top">
     <div class="id"><b>Brain</b><span class="repo">— an interactive pitch</span></div>
-    <div class="step-label" id="stepLabel" aria-live="polite">Step 1 of 8 — The problem</div>
+    <div class="step-label" id="stepLabel" aria-live="polite">Step 1 of 9 — The problem</div>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle color theme">theme</button>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
@@ -317,35 +319,48 @@
       </div>
     </section>
 
-    <!-- 5 : the movie scene — grow or stall -->
-    <section class="step" data-step="5" data-label="Grow or stall" hidden>
+    <!-- 5 : movie A — everyone read-only -->
+    <section class="step movie" data-step="5" data-label="A year of taking" hidden>
       <div class="wrap">
-        <p class="eyebrow">zoom out — one year, two futures</p>
-        <h2>A shared brain only grows if people feed it.</h2>
-        <p class="step-lede">Both sides start with the same handful of lessons. On the <b>left</b>, everyone stays <em class="pull">read-only</em> — they pull what's there, nobody adds. On the <b>right</b>, people run <code>brain sync</code> and give their lessons back. Watch a year pass.</p>
-        <div class="sim-wrap">
-          <div class="sim">
-            <div class="sim-head"><span class="sim-title">Everyone read-only</span><span class="sim-count" id="countRead">6 lessons</span></div>
-            <canvas id="simRead" class="sim-canvas" aria-label="A knowledge network where nobody contributes — it never grows past its six starting lessons."></canvas>
-            <div class="sim-foot">Everyone benefits. Nothing new arrives.</div>
-          </div>
-          <div class="sim">
-            <div class="sim-head"><span class="sim-title">People give back</span><span class="sim-count give" id="countGive">6 lessons</span></div>
-            <canvas id="simGive" class="sim-canvas" aria-label="A knowledge network where people contribute — it grows dense and bright over the year."></canvas>
-            <div class="sim-foot">Each person leaves something behind.</div>
-          </div>
+        <p class="eyebrow">zoom out — one year · future A</p>
+        <h2>If everyone only takes, here's a year from now.</h2>
+        <p class="step-lede">Start with six lessons. Play twelve months. People arrive, pull what's useful, and move on — everyone gets real value. Watch what the shared pool looks like when the year is up.</p>
+        <div class="sim">
+          <div class="sim-head"><span class="sim-title">Everyone read-only</span><span class="sim-count" id="countRead">6 lessons</span></div>
+          <canvas id="simRead" class="sim-canvas tall" aria-label="A knowledge network where nobody contributes — it never grows past its six starting lessons over the year."></canvas>
+          <div class="sim-foot">Everyone benefits. Nothing new arrives.</div>
         </div>
         <div class="sim-bar">
-          <div class="sim-month" id="simMonth">Month 1</div>
-          <div class="sim-progress"><div class="sim-progress-fill" id="simFill"></div></div>
-          <button class="sim-play" id="simPlay" type="button">▶ Play the year</button>
+          <div class="sim-month" id="monthRead">Month 1</div>
+          <div class="sim-progress"><div class="sim-progress-fill" id="fillRead"></div></div>
+          <button class="sim-play" id="playRead" type="button">▶ Play the year</button>
         </div>
-        <p class="step-lede" style="margin-top:16px">Read-only is still a great deal for <em>you</em> — you get everything that's there. But "everything that's there" only grows when people give back. Taking costs you nothing, and that's genuinely fine. <strong>Full is just how the whole thing gets smarter — including for you, next time.</strong></p>
+        <p class="step-lede" style="margin-top:16px">A year on, every newcomer still benefits — from the exact same six lessons. Nothing here wasn't here on day one. That's read-only at scale: a fair deal for each person, and a pool that never gets any deeper.</p>
       </div>
     </section>
 
-    <!-- 6 : objection -->
-    <section class="step" data-step="6" data-label="The objection" hidden>
+    <!-- 6 : movie B — people give back -->
+    <section class="step movie" data-step="6" data-label="A year of giving" hidden>
+      <div class="wrap">
+        <p class="eyebrow">zoom out — one year · future B</p>
+        <h2>Same start. This time people give back.</h2>
+        <p class="step-lede">The identical six lessons, the identical twelve months — except now people run <code>brain sync</code> and leave what they figured out behind them. Same clock. Watch the difference.</p>
+        <div class="sim">
+          <div class="sim-head"><span class="sim-title">People give back</span><span class="sim-count give" id="countGive">6 lessons</span></div>
+          <canvas id="simGive" class="sim-canvas tall" aria-label="A knowledge network where people contribute — it grows dense and bright over the year."></canvas>
+          <div class="sim-foot">Each person leaves something behind.</div>
+        </div>
+        <div class="sim-bar">
+          <div class="sim-month" id="monthGive">Month 1</div>
+          <div class="sim-progress"><div class="sim-progress-fill" id="fillGive"></div></div>
+          <button class="sim-play" id="playGive" type="button">▶ Play the year</button>
+        </div>
+        <p class="step-lede" style="margin-top:16px">Same starting point, same twelve months — and the pool is now many times deeper, for everyone who shows up next. Read-only costs you nothing, and that's genuinely fine. <strong>Full is just how the whole thing gets smarter — including for you, next time.</strong></p>
+      </div>
+    </section>
+
+    <!-- 7 : objection -->
+    <section class="step" data-step="7" data-label="The objection" hidden>
       <div class="wrap">
         <div class="objection">
           <p class="eyebrow">the obvious objection</p>
@@ -358,8 +373,8 @@
       </div>
     </section>
 
-    <!-- 7 : evidence -->
-    <section class="step cli" data-step="7" data-label="The evidence" hidden>
+    <!-- 8 : evidence -->
+    <section class="step cli" data-step="8" data-label="The evidence" hidden>
       <div class="wrap">
         <p class="eyebrow">evidence, not adjectives</p>
         <h2>This page is proof of its own pitch.</h2>
@@ -377,8 +392,8 @@
       </div>
     </section>
 
-    <!-- 8 : ask -->
-    <section class="step" data-step="8" data-label="The ask" hidden>
+    <!-- 9 : ask -->
+    <section class="step" data-step="9" data-label="The ask" hidden>
       <div class="wrap">
         <p class="eyebrow">the ask</p>
         <h2>Two lines. The same two you just ran.</h2>
@@ -718,98 +733,82 @@
     if(e.key==='ArrowLeft' && current>1) goTo(current-1,true);
   });
 
-  /* ---------- the movie scene: a growing brain vs a static one ---------- */
-  (function initSim(){
-    var slide=document.querySelector('.step[data-label="Grow or stall"]');
-    if(!slide) return;
-    var cRead=document.getElementById('simRead'), cGive=document.getElementById('simGive');
-    var countRead=document.getElementById('countRead'), countGive=document.getElementById('countGive');
-    var monthEl=document.getElementById('simMonth'), fillEl=document.getElementById('simFill'), playBtn=document.getElementById('simPlay');
-    var xr=cRead.getContext('2d'), xg=cGive.getContext('2d');
+  /* ---------- the movie scenes: two futures, one per slide ---------- */
+  (function initSims(){
     var SEED=6, MAXG=70, NUSERS=46, DUR=9000;
-
     function rng(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; var t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
     var TAU=Math.PI*2, GA=Math.PI*(3-Math.sqrt(5));
-
-    // shared seed cluster (same start on both sides)
-    var seed=[]; (function(){ var R=rng(4242); for(var i=0;i<SEED;i++){ var a=R()*TAU, r=0.05+R()*0.07; seed.push({x:0.5+Math.cos(a)*r, y:0.5+Math.sin(a)*r, born:0, seed:true}); } })();
     function nearest(list, s, upto){ var bi=-1, bd=1e9; for(var j=0;j<upto;j++){ var dx=list[j].x-s.x, dy=list[j].y-s.y, d=dx*dx+dy*dy; if(d<bd && d>1e-6){ bd=d; bi=j; } } return bi; }
 
-    // right (give-back): a growing graph
+    // same seed cluster for both futures (identical start)
+    var seed=[]; (function(){ var R=rng(4242); for(var i=0;i<SEED;i++){ var a=R()*TAU, r=0.05+R()*0.07; seed.push({x:0.5+Math.cos(a)*r, y:0.5+Math.sin(a)*r, born:0, seed:true}); } })();
+
+    // give-back model: a growing graph
     var give=seed.map(function(s){ return {x:s.x,y:s.y,born:0,seed:true}; });
     var giveEdges=[]; (function(){ var R=rng(1717);
-      // seed web
       for(var i=1;i<SEED;i++){ giveEdges.push({a:i,b:nearest(give,give[i],i),born:0}); }
       for(var k=0;k<MAXG;k++){ var ang=k*GA+R()*0.25, rad=0.09+0.34*Math.sqrt((k+1)/MAXG);
         var st={x:0.5+Math.cos(ang)*rad, y:0.5+Math.sin(ang)*rad*0.92, born:(k+1)/(MAXG+3)};
         var bi=nearest(give,st,give.length); giveEdges.push({a:give.length,b:bi,born:st.born});
         if(R()<0.4){ var b2=nearest(give,st,Math.max(1,give.length-3)); if(b2!==bi) giveEdges.push({a:give.length,b:b2,born:st.born}); }
         give.push(st);
-      }
-    })();
+      } })();
 
-    // left (read-only): seed stays fixed; users arrive and pull, nothing new is added
+    // read-only model: seed stays fixed; users arrive and pull, nothing new is added
     var seedEdges=[]; for(var i=1;i<SEED;i++){ seedEdges.push({a:i,b:nearest(seed,seed[i],i)}); }
-    var users=[]; (function(){ var R=rng(9001); for(var i=0;i<NUSERS;i++){ var a=R()*TAU; users.push({ang:a, born:(i+0.5)/(NUSERS+2), tgt:seed[(R()*SEED)|0], rim:0.44+R()*0.05, jitter:R()*TAU}); } })();
+    var users=[]; (function(){ var R=rng(9001); for(var j=0;j<NUSERS;j++){ var a=R()*TAU; users.push({ang:a, born:(j+0.5)/(NUSERS+2), tgt:seed[(R()*SEED)|0], rim:0.44+R()*0.05}); } })();
 
-    // glow sprite
     function sprite(rgb){ var s=document.createElement('canvas'); s.width=s.height=48; var c=s.getContext('2d');
       var g=c.createRadialGradient(24,24,0,24,24,24); g.addColorStop(0,'rgba('+rgb+',1)'); g.addColorStop(0.35,'rgba('+rgb+',0.55)'); g.addColorStop(1,'rgba('+rgb+',0)');
       c.fillStyle=g; c.fillRect(0,0,48,48); return s; }
     var spGive=sprite('127,174,156'), spSeed=sprite('214,162,74'), spUser=sprite('201,141,127');
-
     var dpr=Math.max(1, Math.min(2, window.devicePixelRatio||1));
-    function fit(cv){ var w=cv.clientWidth, h=cv.clientHeight; cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr); }
-    function frame(cv){ var w=cv.clientWidth, h=cv.clientHeight, S=Math.min(w,h)*0.94; return {w:w,h:h,S:S,ox:(w-S)/2,oy:(h-S)/2}; }
+    function fit(cv){ cv.width=Math.round(cv.clientWidth*dpr); cv.height=Math.round(cv.clientHeight*dpr); }
+    function frame(cv){ var w=cv.clientWidth, h=cv.clientHeight, S=Math.min(w,h)*0.96; return {w:w,h:h,S:S,ox:(w-S)/2,oy:(h-S)/2}; }
 
-    function drawGive(t){ var f=frame(cGive); xg.setTransform(dpr,0,0,dpr,0,0); xg.clearRect(0,0,f.w,f.h);
-      var count=0, i;
-      xg.lineWidth=1; xg.strokeStyle='rgba(127,174,156,0.16)';
+    function drawGive(x, cv, t){ var f=frame(cv); x.setTransform(dpr,0,0,dpr,0,0); x.clearRect(0,0,f.w,f.h); var count=0,i;
+      x.lineWidth=1; x.strokeStyle='rgba(127,174,156,0.16)';
       for(i=0;i<giveEdges.length;i++){ var e=giveEdges[i]; if(e.born>t) continue; var A=give[e.a],B=give[e.b];
-        xg.globalAlpha=Math.min(1,(t-e.born)*10)*0.6; xg.beginPath(); xg.moveTo(f.ox+A.x*f.S,f.oy+A.y*f.S); xg.lineTo(f.ox+B.x*f.S,f.oy+B.y*f.S); xg.stroke(); }
-      xg.globalAlpha=1;
+        x.globalAlpha=Math.min(1,(t-e.born)*10)*0.6; x.beginPath(); x.moveTo(f.ox+A.x*f.S,f.oy+A.y*f.S); x.lineTo(f.ox+B.x*f.S,f.oy+B.y*f.S); x.stroke(); }
+      x.globalAlpha=1;
       for(i=0;i<give.length;i++){ var s=give[i]; if(s.born>t) continue; count++;
-        var age=Math.min(1,(t-s.born)*9), sz=(s.seed?15:11)*(0.5+0.5*age); var sp=s.seed?spSeed:spGive;
-        xg.globalAlpha=0.35+0.65*age; xg.drawImage(sp, f.ox+s.x*f.S-sz/2, f.oy+s.y*f.S-sz/2, sz, sz); }
-      xg.globalAlpha=1; return count; }
+        var age=Math.min(1,(t-s.born)*9), sz=(s.seed?16:12)*(0.5+0.5*age);
+        x.globalAlpha=0.35+0.65*age; x.drawImage(s.seed?spSeed:spGive, f.ox+s.x*f.S-sz/2, f.oy+s.y*f.S-sz/2, sz, sz); }
+      x.globalAlpha=1; return count; }
 
-    function drawRead(t){ var f=frame(cRead); xr.setTransform(dpr,0,0,dpr,0,0); xr.clearRect(0,0,f.w,f.h); var i;
-      xr.lineWidth=1; xr.strokeStyle='rgba(127,174,156,0.14)';
-      for(i=0;i<seedEdges.length;i++){ var e=seedEdges[i],A=seed[e.a],B=seed[e.b]; xr.beginPath(); xr.moveTo(f.ox+A.x*f.S,f.oy+A.y*f.S); xr.lineTo(f.ox+B.x*f.S,f.oy+B.y*f.S); xr.stroke(); }
-      var pulling=0;
+    function drawRead(x, cv, t){ var f=frame(cv); x.setTransform(dpr,0,0,dpr,0,0); x.clearRect(0,0,f.w,f.h); var i;
+      x.lineWidth=1; x.strokeStyle='rgba(127,174,156,0.14)';
+      for(i=0;i<seedEdges.length;i++){ var e=seedEdges[i],A=seed[e.a],B=seed[e.b]; x.beginPath(); x.moveTo(f.ox+A.x*f.S,f.oy+A.y*f.S); x.lineTo(f.ox+B.x*f.S,f.oy+B.y*f.S); x.stroke(); }
       for(i=0;i<users.length;i++){ var u=users[i]; if(u.born>t) continue; var age=t-u.born;
         var ux=0.5+Math.cos(u.ang)*u.rim, uy=0.5+Math.sin(u.ang)*u.rim*0.92;
-        if(age<0.06){ pulling++; xr.globalAlpha=0.5; xr.strokeStyle='rgba(201,141,127,0.5)'; xr.setLineDash([2,3]);
-          xr.beginPath(); xr.moveTo(f.ox+ux*f.S,f.oy+uy*f.S); xr.lineTo(f.ox+u.tgt.x*f.S,f.oy+u.tgt.y*f.S); xr.stroke(); xr.setLineDash([]); xr.strokeStyle='rgba(127,174,156,0.14)'; }
-        var sz=8*Math.min(1,age*12); xr.globalAlpha=0.5+0.4*Math.min(1,age*6);
-        xr.drawImage(spUser, f.ox+ux*f.S-sz/2, f.oy+uy*f.S-sz/2, sz, sz); }
-      xr.globalAlpha=1;
-      for(i=0;i<seed.length;i++){ var s=seed[i]; xr.drawImage(spSeed, f.ox+s.x*f.S-8, f.oy+s.y*f.S-8, 16,16); }
-      return pulling; }
+        if(age<0.06){ x.globalAlpha=0.5; x.strokeStyle='rgba(201,141,127,0.5)'; x.setLineDash([2,3]);
+          x.beginPath(); x.moveTo(f.ox+ux*f.S,f.oy+uy*f.S); x.lineTo(f.ox+u.tgt.x*f.S,f.oy+u.tgt.y*f.S); x.stroke(); x.setLineDash([]); x.strokeStyle='rgba(127,174,156,0.14)'; }
+        var sz=9*Math.min(1,age*12); x.globalAlpha=0.5+0.4*Math.min(1,age*6);
+        x.drawImage(spUser, f.ox+ux*f.S-sz/2, f.oy+uy*f.S-sz/2, sz, sz); }
+      x.globalAlpha=1;
+      for(i=0;i<seed.length;i++){ var s=seed[i]; x.drawImage(spSeed, f.ox+s.x*f.S-9, f.oy+s.y*f.S-9, 18,18); }
+      return SEED; }
 
-    function setUI(t, giveCount){
-      var m=Math.min(12, 1+Math.floor(t*12)); monthEl.textContent='Month '+m;
-      fillEl.style.width=(t*100)+'%';
-      countRead.textContent=SEED+' lessons';
-      countGive.textContent=giveCount+' lessons';
+    // one independent movie per slide
+    function makeSim(cfg){
+      var slide=document.querySelector(cfg.slide); if(!slide) return;
+      var cv=document.getElementById(cfg.canvas), x=cv.getContext('2d');
+      var countEl=document.getElementById(cfg.count), monthEl=document.getElementById(cfg.month), fillEl=document.getElementById(cfg.fill), playBtn=document.getElementById(cfg.play);
+      var draw=cfg.mode==='give'?drawGive:drawRead;
+      var raf=0, t0=0, played=false, fitted=false;
+      function render(t){ var n=draw(x, cv, t); countEl.textContent=n+' lessons';
+        monthEl.textContent='Month '+Math.min(12,1+Math.floor(t*12)); fillEl.style.width=(t*100)+'%'; }
+      function tick(now){ if(!t0) t0=now; var t=Math.min(1,(now-t0)/DUR); render(t);
+        if(t<1){ raf=requestAnimationFrame(tick); } else { playBtn.disabled=false; playBtn.textContent='↻ Replay the year'; } }
+      function play(){ cancelAnimationFrame(raf); fit(cv); fitted=true; t0=0; playBtn.disabled=true; playBtn.textContent='▶ Playing…'; raf=requestAnimationFrame(tick); }
+      function still(){ fit(cv); fitted=true; render(1); playBtn.disabled=false; playBtn.textContent='↻ Replay the year'; }
+      playBtn.addEventListener('click', function(){ reduced?still():play(); });
+      window.addEventListener('resize', function(){ if(fitted){ fit(cv); render(raf?1:1); } });
+      slide.__sim={ onEnter:function(){ if(reduced){ still(); return; } if(!played){ played=true; setTimeout(play,260); } else still(); } };
     }
 
-    var raf=0, t0=0, played=false, fitted=false;
-    function ensureFit(){ fit(cRead); fit(cGive); fitted=true; }
-    function tick(now){ if(!t0) t0=now; var t=Math.min(1,(now-t0)/DUR);
-      var gc=drawGive(t); drawRead(t); setUI(t,gc);
-      if(t<1){ raf=requestAnimationFrame(tick); } else { playBtn.disabled=false; playBtn.textContent='↻ Replay the year'; } }
-    function play(){ cancelAnimationFrame(raf); ensureFit(); t0=0; playBtn.disabled=true; playBtn.textContent='▶ Playing…'; raf=requestAnimationFrame(tick); }
-    function finalStill(){ ensureFit(); var gc=drawGive(1); drawRead(1); setUI(1,gc); playBtn.disabled=false; playBtn.textContent='↻ Replay the year'; }
-
-    playBtn.addEventListener('click', function(){ if(reduced){ finalStill(); } else { play(); } });
-    window.addEventListener('resize', function(){ if(!fitted) return; if(reduced){ finalStill(); } else { fit(cRead); fit(cGive); var t=raf?null:1; if(t===1){ drawGive(1); drawRead(1); } } });
-
-    slide.__sim={ onEnter:function(){
-      if(reduced){ finalStill(); return; }
-      if(!played){ played=true; setTimeout(play, 260); }   // let the slide-in settle, then roll
-      else finalStill();
-    }};
+    makeSim({ slide:'.step[data-label="A year of taking"]', canvas:'simRead', count:'countRead', month:'monthRead', fill:'fillRead', play:'playRead', mode:'read' });
+    makeSim({ slide:'.step[data-label="A year of giving"]', canvas:'simGive', count:'countGive', month:'monthGive', fill:'fillGive', play:'playGive', mode:'give' });
   })();
 
   render();
