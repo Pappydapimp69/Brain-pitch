@@ -173,6 +173,39 @@
   .sim-play:hover{ opacity:.9; }
   .sim-play:disabled{ opacity:.5; cursor:default; }
 
+  /* build-and-break widget */
+  .build{ display:grid; gap:14px; margin-top:20px; grid-template-columns:1fr; }
+  @media (min-width:640px){ .build{ grid-template-columns:1.1fr 1fr; } }
+  .build-app{ background:var(--paper-dim); border:1px solid var(--paper-line); border-radius:8px; overflow:hidden; }
+  .build-appbar{ display:flex; align-items:center; gap:6px; padding:9px 13px; border-bottom:1px solid var(--paper-line);
+                 font-family:var(--mono); font-size:11px; color:var(--ink-soft); }
+  .build-appbar span{ width:8px; height:8px; border-radius:50%; background:var(--paper-line); }
+  .build-appbar span:first-child{ margin-left:0; }
+  .build-stage{ position:relative; padding:26px 20px 30px; min-height:150px; }
+  .menu-btn{ font-family:var(--sans); font-size:15px; font-weight:600; background:var(--paper); color:var(--ink);
+             border:1px solid var(--paper-line); border-radius:7px; padding:10px 16px; cursor:pointer; box-shadow:0 1px 0 rgba(20,24,31,.05); }
+  .menu-btn:hover{ border-color:var(--stamp); }
+  @media (prefers-reduced-motion:no-preference){ .menu-btn.nudge{ animation:nudge 1.5s ease-in-out infinite; } }
+  @keyframes nudge{ 0%,100%{ box-shadow:0 0 0 0 rgba(147,54,42,0); } 50%{ box-shadow:0 0 0 5px rgba(147,54,42,.12); } }
+  .menu-panel{ position:absolute; left:20px; margin-top:8px; min-width:150px; background:var(--paper);
+               border:1px solid var(--paper-line); border-radius:8px; box-shadow:0 12px 28px -12px rgba(20,24,31,.35);
+               display:flex; flex-direction:column; overflow:hidden; z-index:2; }
+  .menu-panel[hidden]{ display:none; }
+  .menu-panel span{ padding:9px 14px; font-size:14px; color:var(--ink); border-bottom:1px solid var(--paper-line); }
+  .menu-panel span:last-child{ border-bottom:0; }
+  .build-probe{ background:var(--console-bg); border:1px solid var(--console-line); border-radius:8px; padding:14px 15px;
+                font-family:var(--mono); }
+  .probe-title{ font-size:11px; letter-spacing:.04em; color:var(--console-dim); text-transform:uppercase; margin-bottom:9px; }
+  .probe-log{ list-style:none; margin:0 0 12px; padding:0; font-size:12.5px; color:var(--console-fg); line-height:1.7; }
+  .probe-log li{ opacity:.9; }
+  .probe-log li.bad{ color:#d98c7f; }
+  .probe-state{ font-size:13px; font-weight:600; padding:8px 11px; border-radius:6px; }
+  .probe-state.closed{ color:#d98c7f; background:rgba(217,140,127,.1); border:1px solid rgba(217,140,127,.3); }
+  .build-note{ margin-top:16px; padding:13px 16px; border-left:3px solid var(--amber); background:rgba(176,122,30,.08);
+               color:var(--ink-soft); font-size:14.5px; line-height:1.55; border-radius:0 5px 5px 0; }
+  .build-note b{ color:var(--ink); font-weight:600; }
+  @media (prefers-reduced-motion:no-preference){ .build-note{ animation:noteIn .34s ease both; } }
+
   /* command buttons */
   .console-actions{ display:flex; flex-wrap:wrap; gap:9px; padding:13px 15px 15px; border-top:1px solid var(--console-line); align-items:center; }
   .console-actions .prefix{ font-family:var(--mono); font-size:12px; color:var(--console-dim); align-self:center; }
@@ -259,7 +292,7 @@
 <div class="app">
   <div class="chrome-top">
     <div class="id"><b>Brain</b><span class="repo">— an interactive pitch</span></div>
-    <div class="step-label" id="stepLabel" aria-live="polite">Step 1 of 9 — The problem</div>
+    <div class="step-label" id="stepLabel" aria-live="polite">Step 1 of 10 — The problem</div>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle color theme">theme</button>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
@@ -275,12 +308,37 @@
       </div>
     </section>
 
-    <!-- 2 : live CLI #1 -->
-    <section class="step cli" data-step="2" data-label="Set it up, use it" hidden>
+    <!-- 2 : build & hit a wall -->
+    <section class="step" data-step="2" data-label="You hit a wall" hidden>
+      <div class="wrap">
+        <p class="eyebrow">before Brain — you're on your own</p>
+        <h2>You build a pop-up menu. Your code can't tell it opened.</h2>
+        <p class="step-lede">Here's a menu you just wired up. Click it — the panel appears on screen. Now watch what your own "did it open?" check thinks happened.</p>
+        <div class="build">
+          <div class="build-app">
+            <div class="build-appbar"><span></span><span></span><span></span> your app</div>
+            <div class="build-stage">
+              <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false">Menu ▾</button>
+              <div class="menu-panel" id="menuPanel" hidden><span>Profile</span><span>Settings</span><span>Sign out</span></div>
+            </div>
+          </div>
+          <div class="build-probe">
+            <div class="probe-title">your "is it open?" check</div>
+            <ul class="probe-log" id="probeLog"><li>waiting for a click…</li></ul>
+            <div class="probe-state closed" id="probeState">menu reads as: CLOSED</div>
+          </div>
+        </div>
+        <div class="build-note" id="buildNote" hidden>The menu is <b>right there</b> on screen — but your check was watching for it to be <em>added</em> to the page. This tool pre-built it hidden and just flipped it visible, so your check never fires. Every UI tool does this a little differently. Right here is where you'd normally lose twenty minutes — unless someone already hit this exact wall and wrote down what to do.</div>
+        <p class="step-lede" style="margin-top:16px">That's the wall. Next: you set up Brain and just ask it.</p>
+      </div>
+    </section>
+
+    <!-- 3 : live CLI #1 -->
+    <section class="step cli" data-step="3" data-label="Set it up, use it" hidden>
       <div class="wrap">
         <p class="eyebrow">a real command window — you run it</p>
-        <h2>Set it up. Then pull a fix you never wrote.</h2>
-        <p class="step-lede">The dark panel below is a <em class="pull">terminal</em> — the text window where you type short commands to your computer. This one really works, right here in the page. Click the commands in order; the last one searches the real shared logbook and pulls back an actual lesson someone filed after a real bug.</p>
+        <h2>So you ask Brain about that wall.</h2>
+        <p class="step-lede">Before Brain, that menu bug is a debugging session. With it, you just ask. The dark panel below is a <em class="pull">terminal</em> — the window where you type short commands to your computer. It really works, right here in the page. Set Brain up with two commands, then ask it about the exact thing you're stuck on.</p>
         <div class="console">
           <div class="console-bar"><span></span><span></span><span></span><span class="title">zsh — your-project/</span><span class="live">live</span></div>
           <div class="console-body" id="termA"></div>
@@ -291,7 +349,7 @@
     </section>
 
     <!-- 3 : explanation -->
-    <section class="step" data-step="3" data-label="What just happened" hidden>
+    <section class="step" data-step="4" data-label="What just happened" hidden>
       <div class="wrap">
         <p class="eyebrow">what those two commands bought you</p>
         <h2>You linked one project to a shared memory.</h2>
@@ -305,7 +363,7 @@
     </section>
 
     <!-- 4 : live CLI #2 (continues state) -->
-    <section class="step cli" data-step="4" data-label="Record & keep it private" hidden>
+    <section class="step cli" data-step="5" data-label="Record & keep it private" hidden>
       <div class="wrap">
         <p class="eyebrow">same session, continued — you're still driving</p>
         <h2>You build something. It records. It stays yours.</h2>
@@ -320,7 +378,7 @@
     </section>
 
     <!-- 5 : movie A — everyone read-only -->
-    <section class="step movie" data-step="5" data-label="A year of taking" hidden>
+    <section class="step movie" data-step="6" data-label="A year of taking" hidden>
       <div class="wrap">
         <p class="eyebrow">zoom out — one year · future A</p>
         <h2>If everyone only takes, here's a year from now.</h2>
@@ -340,7 +398,7 @@
     </section>
 
     <!-- 6 : movie B — people give back -->
-    <section class="step movie" data-step="6" data-label="A year of giving" hidden>
+    <section class="step movie" data-step="7" data-label="A year of giving" hidden>
       <div class="wrap">
         <p class="eyebrow">zoom out — one year · future B</p>
         <h2>Same start. This time people give back.</h2>
@@ -360,7 +418,7 @@
     </section>
 
     <!-- 7 : objection -->
-    <section class="step" data-step="7" data-label="The objection" hidden>
+    <section class="step" data-step="8" data-label="The objection" hidden>
       <div class="wrap">
         <div class="objection">
           <p class="eyebrow">the obvious objection</p>
@@ -374,7 +432,7 @@
     </section>
 
     <!-- 8 : evidence -->
-    <section class="step cli" data-step="8" data-label="The evidence" hidden>
+    <section class="step cli" data-step="9" data-label="The evidence" hidden>
       <div class="wrap">
         <p class="eyebrow">evidence, not adjectives</p>
         <h2>This page is proof of its own pitch.</h2>
@@ -393,7 +451,7 @@
     </section>
 
     <!-- 9 : ask -->
-    <section class="step" data-step="9" data-label="The ask" hidden>
+    <section class="step" data-step="10" data-label="The ask" hidden>
       <div class="wrap">
         <p class="eyebrow">the ask</p>
         <h2>Two lines. The same two you just ran.</h2>
@@ -511,7 +569,7 @@
       {cmd:'brain install'},
       {cmd:'brain link', choice:true, note:'<b>Your call — it pauses here for it.</b> Here’s the key thing: <b>both modes give you exactly the same thing coming in</b> — every lesson every other project has ever written down is yours to pull. The only difference is what flows back <em>out</em>. <b>read-only</b> (the default) takes freely but never sends anything back — you get the full benefit of everyone’s work without contributing your own. <b>full</b> also lets you give your lessons back to the shared logbook, and even then only when you run <code>brain sync</code> yourself. Switch anytime. Pick <b>full</b> for this walkthrough so you can see the giving-back half too.'},
       {cmd:'brain status'},
-      {cmd:'brain query "popover"', note:'That entry was never in your code or your notes. A different project filed it after a real bug — you just pulled the fix for free.'}
+      {cmd:'brain query "menu"', note:'<b>That\'s your exact wall.</b> Someone else built a menu, hit the same thing, and wrote down the fix — watch for the menu becoming <em>visible</em>, not for it being added to the page. It was never in your code or your notes. You just skipped the whole debugging session.'}
     ],
     B:[
       {cmd:'brain mine', note:'This reads your recent work and this very conversation, then writes any lessons worth keeping into <b>.brain/</b> — a folder that lives inside your own project. Nothing left your computer.'},
@@ -699,7 +757,12 @@
   var dotEls=Array.prototype.slice.call(dotsWrap.children);
 
   function currentSlide(){ return steps[current-1]; }
-  function isCLIgate(){ var s=currentSlide(); return s.__cli && !s.__cli.done; }
+  // a slide can block Continue until the reader does something; returns a label or null
+  function gateActive(){ var s=currentSlide();
+    if(s.__cli && !s.__cli.done) return 'Run the commands ↑';
+    if(s.__blockNext && s.__blockNext()) return s.__nextLabel || 'Try it first ↑';
+    return null; }
+  function refreshNext(){ var g=gateActive(); nextBtn.disabled=!!g; nextBtn.textContent=g||'Continue →'; }
 
   function render(dir){
     session.running=false;   // free the lock when navigating between slides
@@ -715,24 +778,46 @@
     progressFill.style.width=(current/total*100)+'%';
     prevBtn.disabled=current===1;
     nextBtn.hidden=current===total;
-    // earned continue: on an unfinished CLI slide, gate Continue
-    if(isCLIgate()){ nextBtn.disabled=true; nextBtn.textContent='Run the commands ↑'; }
-    else { nextBtn.disabled=false; nextBtn.textContent='Continue →'; }
+    refreshNext();   // earned continue: some slides gate until the reader participates
     dotEls.forEach(function(d,i){ var n=i+1; d.classList.toggle('visited', n<=maxVisited);
       if(n===current) d.setAttribute('aria-current','step'); else d.removeAttribute('aria-current'); });
     stage.scrollTop=0;
   }
-  function unlockContinue(){ if(current===currentSlideIndexForCli()) { nextBtn.disabled=false; nextBtn.textContent='Continue →'; } }
-  function currentSlideIndexForCli(){ return current; }
+  function unlockContinue(){ refreshNext(); }
 
   function goTo(n, back){ current=Math.max(1,Math.min(total,n)); if(current>maxVisited) maxVisited=current; render(back?'back':'fwd'); }
   prevBtn.addEventListener('click', function(){ goTo(current-1, true); });
   nextBtn.addEventListener('click', function(){ if(nextBtn.disabled) return; goTo(current+1, false); });
   document.addEventListener('keydown', function(e){
     if(e.target && e.target.tagName==='BUTTON') return;
-    if(e.key==='ArrowRight' && !isCLIgate() && current<total) goTo(current+1,false);
+    if(e.key==='ArrowRight' && !gateActive() && current<total) goTo(current+1,false);
     if(e.key==='ArrowLeft' && current>1) goTo(current-1,true);
   });
+
+  /* ---------- the build-and-break widget ---------- */
+  (function initBuild(){
+    var slide=document.querySelector('.step[data-label="You hit a wall"]'); if(!slide) return;
+    var btn=document.getElementById('menuBtn'), panel=document.getElementById('menuPanel'),
+        log=document.getElementById('probeLog'), state=document.getElementById('probeState'), note=document.getElementById('buildNote');
+    var clicked=false;
+    slide.__blockNext=function(){ return !clicked; };
+    slide.__nextLabel='Click the menu first ↑';
+    if(!reduced) btn.classList.add('nudge');
+    btn.addEventListener('click', function(){
+      var opening=panel.hasAttribute('hidden');
+      if(opening){ panel.removeAttribute('hidden'); btn.setAttribute('aria-expanded','true'); btn.textContent='Menu ▴'; }
+      else { panel.setAttribute('hidden',''); btn.setAttribute('aria-expanded','false'); btn.textContent='Menu ▾'; }
+      if(!clicked){
+        clicked=true; btn.classList.remove('nudge');
+        log.innerHTML='<li>you clicked — a panel appeared on screen ✓</li>'
+          +'<li>now watching for it to be <b>added</b> to the page…</li>'
+          +'<li class="bad">…it was never added. it was already there, just hidden.</li>';
+        state.textContent='menu reads as: CLOSED  ✗';   // the bug: visibly open, code says closed
+        if(note) note.hidden=false;
+        refreshNext();   // they've seen the wall — let them continue
+      }
+    });
+  })();
 
   /* ---------- the movie scenes: two futures, one per slide ---------- */
   (function initSims(){
