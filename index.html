@@ -653,7 +653,7 @@
     var termEl=slide.querySelector('.console-body');
     var actions=slide.querySelector('.console-actions');
     var script=SCRIPTS[key];
-    slide.__cli={ key:key, termEl:termEl, actions:actions, script:script, idx:0, done:false, mounted:false, carried:(key==='B') };
+    slide.__cli={ key:key, termEl:termEl, actions:actions, script:script, idx:0, done:false, mounted:false, carried:(key==='B'), pace:(key==='B'?1.7:1) };
     // create buttons (only first visible)
     script.forEach(function(step, i){
       var b=document.createElement('button');
@@ -689,21 +689,23 @@
 
   // type the "$ cmd" echo with a trailing cursor, hold, then settle it
   function typeEcho(cli, cmd){
+    var p=cli.pace||1;
     var d=document.createElement('div'); d.className='ln';
     d.innerHTML='<span class="prompt">$</span> '+esc(cmd)+'<span class="cursor"></span>';
     cli.termEl.appendChild(d); scrollTerm(cli);
-    return delay(reduced?0:680).then(function(){
+    return delay(680*p).then(function(){
       d.innerHTML='<span class="prompt">$</span> '+esc(cmd);
       scrollback.push({h:'<span class="prompt">$</span> '+esc(cmd)});
     });
   }
 
-  // stream output lines one at a time so they don't all appear at once
+  // stream output lines one at a time so they don't all appear at once (cli.pace slows dense slides)
   function streamLines(cli, lines){
+    var p=cli.pace||1;
     return lines.reduce(function(chain,o){
       return chain.then(function(){
         cli.termEl.appendChild(lineEl(o)); scrollback.push(o); scrollTerm(cli);
-        return delay(plain(o.h)===''?95:215);
+        return delay((plain(o.h)===''?95:215)*p);
       });
     }, Promise.resolve());
   }
