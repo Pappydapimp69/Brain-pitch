@@ -67,6 +67,21 @@
               color:var(--ink-soft); border:1px solid var(--paper-line); border-radius:3px;
               padding:5px 10px; cursor:pointer; }
   .theme-btn:hover{ color:var(--ink); border-color:var(--ink-soft); }
+  /* persistent mode indicator (also a one-tap switch) — appears once a mode is chosen */
+  .mode-chip{ flex:0 0 auto; font-family:var(--mono); font-size:11px; letter-spacing:.02em;
+              background:var(--paper); border:1px solid var(--paper-line); border-radius:20px; padding:4px 10px;
+              color:var(--ink-soft); cursor:pointer; display:flex; align-items:center; gap:6px; white-space:nowrap; }
+  .mode-chip[hidden]{ display:none; }
+  .mode-chip .dot{ width:7px; height:7px; border-radius:50%; flex:0 0 auto; }
+  .mode-chip.full .dot{ background:var(--verdigris); }
+  .mode-chip.read .dot{ background:transparent; border:1.5px solid var(--ink-soft); }
+  .mode-chip:hover{ border-color:var(--stamp); color:var(--ink); }
+  .mode-chip .hint{ color:var(--stamp); }
+  /* inline "switch to full" affordance inside adaptive copy */
+  .inline-switch{ font-family:var(--sans); font-weight:600; font-size:.94em; color:var(--paper);
+                  background:var(--verdigris); border:0; border-radius:5px; padding:3px 10px; cursor:pointer; white-space:nowrap; }
+  .inline-switch:hover{ opacity:.9; }
+  [hidden]{ display:none !important; }
 
   .progress-track{ flex:0 0 auto; height:3px; background:var(--paper-dim); }
   .progress-fill{ height:100%; background:var(--stamp); width:14%; transition:width .35s ease; }
@@ -120,6 +135,7 @@
   .console-body .path{ color:var(--console-dim); }
   .console-body .ok{ color:#8fbf8a; }
   .console-body .hdr{ color:#c98d7f; }
+  .console-body .no{ color:#d98c7f; font-weight:600; }
   .console-body .tag{ color:var(--amber); }
   .console-body .arrow{ color:#c98d7f; }
   .console-body .cursor{ display:inline-block; width:8px; height:15px; background:var(--verdigris);
@@ -303,6 +319,7 @@
   <div class="chrome-top">
     <div class="id"><b>Brain</b><span class="repo">— an interactive pitch</span></div>
     <div class="step-label" id="stepLabel" aria-live="polite">Step 1 of 10 — The problem</div>
+    <button class="mode-chip" id="modeChip" type="button" hidden title="Your access mode — tap to switch"><span class="dot"></span><span class="lbl"></span></button>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle color theme">theme</button>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
@@ -390,7 +407,7 @@
     <!-- 5 : movie A — everyone read-only -->
     <section class="step movie" data-step="6" data-label="A year of taking" hidden>
       <div class="wrap">
-        <p class="eyebrow">zoom out — one year · future A</p>
+        <p class="eyebrow">zoom out — one year · <span class="m-full">future A</span><span class="m-read" hidden>the world you chose</span></p>
         <h2>If everyone only takes, here's a year from now.</h2>
         <p class="step-lede">Start with six lessons. Play twelve months. People arrive, pull what's useful, move on — everyone gets value. Watch the shared pool when the year's up.</p>
         <div class="sim">
@@ -403,14 +420,15 @@
           <div class="sim-progress"><div class="sim-progress-fill" id="fillRead"></div></div>
           <button class="sim-play" id="playRead" type="button">▶ Play the year</button>
         </div>
-        <p class="step-lede" style="margin-top:14px">A year on, everyone still benefits — from the exact same six lessons. Nothing here wasn't here on day one. Read-only at scale: fair for each person, a pool that never gets deeper.</p>
+        <p class="step-lede m-full" style="margin-top:14px">A year on, everyone still benefits — from the exact same six lessons. Nothing here wasn't here on day one. Read-only at scale: fair for each person, a pool that never gets deeper.</p>
+        <p class="step-lede m-read" style="margin-top:14px" hidden><strong>This is the world you chose.</strong> A year on you still benefit — from the exact same six lessons. Nothing here wasn't here on day one. Fair to you, costs you nothing — and a pool that never gets deeper.</p>
       </div>
     </section>
 
     <!-- 6 : movie B — people give back -->
     <section class="step movie" data-step="7" data-label="A year of giving" hidden>
       <div class="wrap">
-        <p class="eyebrow">zoom out — one year · future B</p>
+        <p class="eyebrow">zoom out — one year · <span class="m-full">the room you joined</span><span class="m-read" hidden>the room you're not in</span></p>
         <h2>Same start. This time people give back.</h2>
         <p class="step-lede">The identical six lessons, the identical twelve months — except now people run <code>brain sync</code> and leave what they figured out behind them. Same clock. Watch the difference.</p>
         <div class="sim">
@@ -423,7 +441,8 @@
           <div class="sim-progress"><div class="sim-progress-fill" id="fillGive"></div></div>
           <button class="sim-play" id="playGive" type="button">▶ Play the year</button>
         </div>
-        <p class="step-lede" style="margin-top:14px">Same start, same twelve months — the pool is now many times deeper, for everyone who shows up next. Read-only costs you nothing, and that's fine. <strong>Full is how the whole thing gets smarter — including for you.</strong></p>
+        <p class="step-lede m-full" style="margin-top:14px">Same start, same twelve months — the pool is now many times deeper, for everyone who shows up next. <strong>You're in this one.</strong> You synced a minute ago — one of these stars is yours, and the next person to hit your bug pulls it. That's full: you take, and you add.</p>
+        <p class="step-lede m-read" style="margin-top:14px" hidden>Same start, same twelve months — the pool is now many times deeper, for everyone who shows up next. <strong>You're not in this one — and that's a fair call.</strong> In read-only you pull from this pool but never add to it; it costs you nothing. If you'd rather be one of these stars, it's one tap: <button class="inline-switch" type="button" data-switch>switch to full →</button></p>
       </div>
     </section>
 
@@ -472,7 +491,8 @@
 <div class="ln"><span class="prompt">$</span> brain link<span class="cursor"></span></div>
           </div>
         </div>
-        <p class="ask-note">Start in <code>read-only</code> — you get every lesson the logbook holds, and nothing you write ever leaves your computer. Switch to <code>full</code> to give back, and even then only when <em>you</em> run <code>brain sync</code>. Turn it off and everything freezes in place, private. Nothing runs in the background.</p>
+        <p class="ask-note m-full">You already gave back once, on purpose — so you know the shape of it. To do it for real: two commands, <code>brain install</code> and <code>brain link</code>, and you contribute whenever <em>you</em> run <code>brain sync</code>. Turn it off and everything freezes, private.</p>
+        <p class="ask-note m-read" hidden>You picked <code>read-only</code> — every lesson to receive, nothing to commit, nothing leaving your computer. A completely fair way to begin. The day you want to give back, it's one command: <code>brain mode full</code>. Same tool, same two-line setup.</p>
       </div>
     </section>
 
@@ -496,6 +516,28 @@
   var themeBtn=document.getElementById('themeBtn');
   function curTheme(){ return root.getAttribute('data-theme')|| (window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'); }
   themeBtn.addEventListener('click',function(){ root.setAttribute('data-theme', curTheme()==='dark'?'light':'dark'); });
+
+  /* ---------- mode state: persist the read-only/full choice across every later slide ---------- */
+  var modeChip=document.getElementById('modeChip');
+  function applyMode(){
+    var m=(typeof engine!=='undefined' && engine.mode) ? engine.mode : null;
+    var eff=m||'full';
+    document.querySelectorAll('.m-full').forEach(function(e){ e.hidden = (eff!=='full'); });
+    document.querySelectorAll('.m-read').forEach(function(e){ e.hidden = (eff!=='read-only'); });
+    if(m){ modeChip.hidden=false; modeChip.className='mode-chip '+(m==='full'?'full':'read');
+      modeChip.querySelector('.lbl').innerHTML = (m==='full') ? 'full' : 'read-only <span class="hint">→ full?</span>';
+    } else { modeChip.hidden=true; }
+  }
+  function switchToFull(){ if(typeof engine!=='undefined'){ engine.mode='full'; applyMode(); } }
+  modeChip.addEventListener('click', function(){
+    if(typeof engine==='undefined' || !engine.mode) return;
+    engine.mode = (engine.mode==='full') ? 'read-only' : 'full';
+    applyMode();
+  });
+  document.addEventListener('click', function(e){
+    var t=e.target.closest && e.target.closest('[data-switch]');
+    if(t){ switchToFull(); }
+  });
 
   /* ---------- the real little brain engine (state machine + real search) ---------- */
   var SHARED=[
@@ -554,13 +596,15 @@
       out.push({h:'&nbsp;&nbsp;overlapped on a narrow screen — needs nowrap + min-width:0'});
     } else if(sub==='sync'){ var had=engine.local.length; engine.local=[];
       if(engine.mode==='read-only'){
-        out.push({h:'<span class="arrow">→</span> verifying '+had+' local proposal…'});
-        out.push({h:'<span class="ok">✓</span> promoted '+had+' into your LOCAL canon — read-only, nothing pushed'});
+        out.push({h:'<span class="arrow">→</span> read-only: reconciling with your LOCAL store only…'});
+        out.push({h:'<span class="ok">✓</span> synced (read-only) — pulled main in; '+had+' promoted to local canon'});
+        out.push({h:'<span class="no">✗</span> not shared — read-only can\'t push to the logbook. 0 reached anyone else.'});
+        out.push({h:'&nbsp;&nbsp;<span class="path">to contribute, switch first:  brain mode full</span>'});
       } else {
         out.push({h:'<span class="arrow">→</span> verifying '+had+' local proposal through main…'});
-        out.push({h:'<span class="ok">✓</span> promoted '+had+' → shared logbook (pushed to pappydapimp69/memory)'});
+        out.push({h:'<span class="ok">✓</span> synced (full) — '+had+' pushed to main (shared logbook)'});
+        out.push({h:'&nbsp;&nbsp;local: 0 stub(s), 0 proposal(s) awaiting sync'});
       }
-      out.push({h:'&nbsp;&nbsp;local: 0 stub(s), 0 proposal(s) awaiting sync'});
     } else if(sub==='disable'){ engine.enabled=false;
       out.push({h:'<span class="ok">✓</span> link disabled — local store frozen; `brain enable` to resume'});
     } else if(sub==='enable'){ engine.enabled=true;
@@ -598,8 +642,8 @@
         ? 'That LOCAL result is the exact lesson <code>brain mine</code> just captured a moment ago — now saved and searchable on <b>your</b> computer (LOCAL = yours only). And because you chose <b>read-only</b>, it <b>can’t</b> reach the shared logbook at all — even <code>brain sync</code> just files it into your own copy. It cannot leave your machine, by design.'
         : 'That LOCAL result is the exact lesson <code>brain mine</code> just captured a moment ago — now saved and searchable on <b>your</b> computer (LOCAL = yours only). It still says "awaiting sync": it has <b>not</b> gone to the shared logbook. Only <code>brain sync</code> sends it there, and only when you choose to.'; }},
       {cmd:'brain sync', note:function(){ return engine.mode==='read-only'
-        ? 'In <b>read-only</b>, <code>sync</code> just files it into your own permanent records — still nothing pushed anywhere. To actually share, you\'d switch to <b>full</b> first. Either way it\'s a command you run, never automatic.'
-        : '<b>There\'s the give-back.</b> One command you chose to run, and your title-bar fix is now in the shared logbook — so the next person who hits it pulls <em>your</em> fix, exactly like you pulled the menu one a minute ago. Notice: it only moved because you ran <code>sync</code> yourself. That resolves the "awaiting sync" — nothing left until you said so.'; }},
+        ? 'Read-only did exactly what read-only does: it filed your fix into your <b>own</b> records and <b>refused to push it</b> — nobody else got it. That\'s not a bug, it\'s the choice you made at setup, and it\'s a fine one: zero commitment. The moment you\'d rather give back, it\'s one command — <code>brain mode full</code> — and this same <code>sync</code> reaches everyone.'
+        : '<b>There\'s the give-back.</b> One command you chose to run, and your title-bar fix is now in the shared logbook — so the next person who hits it pulls <em>your</em> fix, exactly like you pulled the menu one a minute ago. It only moved because you ran <code>sync</code> yourself — that\'s the "awaiting sync" resolved. Nothing left until you said so.'; }},
       {cmd:'brain disable', note:'And whenever you want out: turned off = nothing runs and nothing gets sent anywhere. Anything still local stays frozen, private, on your computer. <b>brain enable</b> switches it back on. That\'s the whole deal: you opt in, you choose what you share, you can stop any time.'}
     ]
   };
@@ -695,7 +739,7 @@
       var fired=false;
       function pick(mode,num){
         if(fired) return; fired=true; cli.pendingGate=null; wrap.remove();
-        engine.linked=true; engine.mode=mode;
+        engine.linked=true; engine.mode=mode; applyMode();
         [{h:'<span class="path">&gt; '+num+'</span>'},{h:'<span class="ok">✓</span> linked ('+mode+')'}]
           .forEach(function(o){ cli.termEl.appendChild(lineEl(o)); scrollback.push(o); });
         if(mode==='read-only'){ appendNote(cli, 'Read-only it is — the safe default. Nothing you record here can ever push. We’ll keep going: lessons still get recorded <b>locally</b> below, they just never leave.'); }
@@ -739,7 +783,7 @@
       var out=run(step.cmd);
       out.forEach(function(o){ cli.termEl.appendChild(lineEl(o)); scrollback.push(o); });
       if(step.choice){                                   // skip → tour default (full)
-        engine.linked=true; engine.mode='full';
+        engine.linked=true; engine.mode='full'; applyMode();
         [{h:'<span class="path">&gt; 2</span>'},{h:'<span class="ok">✓</span> linked (full)'}]
           .forEach(function(o){ cli.termEl.appendChild(lineEl(o)); scrollback.push(o); });
       } else if(step.note){
@@ -797,6 +841,7 @@
     var s=currentSlide();
     if(s.__cli && !s.__cli.mounted) mountCLI(s.__cli);
     if(s.__sim) s.__sim.onEnter();
+    applyMode();   // reflect the read-only/full choice on every slide
     stepLabel.textContent='Step '+current+' of '+total+' — '+s.getAttribute('data-label');
     stepMini.textContent=current+' / '+total;
     progressFill.style.width=(current/total*100)+'%';
