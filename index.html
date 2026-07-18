@@ -78,6 +78,10 @@
   .step.cli{ max-width:940px; }
   .step.movie{ max-width:640px; }
   .step>.wrap{ width:100%; margin-top:auto; margin-bottom:auto; }
+  /* tall slides (movies) top-align so their controls never fall below the fold */
+  .step.movie>.wrap{ margin-top:12px; margin-bottom:auto; }
+  /* mobile: top-align short content instead of centering it in the tall viewport */
+  @media (max-width:640px){ .step>.wrap{ margin-top:0; } }
   .step[hidden]{ display:none; }
   @media (prefers-reduced-motion:no-preference){
     .step{ animation:stepIn .32s ease both; }
@@ -86,11 +90,12 @@
   @keyframes stepIn{ from{opacity:0;transform:translateX(14px);} to{opacity:1;transform:none;} }
   @keyframes stepInBack{ from{opacity:0;transform:translateX(-14px);} to{opacity:1;transform:none;} }
 
-  h1{ font-size:clamp(32px,5.4vw,50px); line-height:1.1; margin-top:16px; }
-  .lede{ margin-top:20px; font-size:clamp(17px,2.2vw,21px); color:var(--ink-soft); max-width:52ch; }
+  /* heading binds to the body it introduces: gap below < gap above (Gestalt proximity) */
+  h1{ font-size:clamp(32px,5.4vw,50px); line-height:1.1; margin-top:18px; }
+  .lede{ margin-top:15px; font-size:clamp(17px,2.2vw,21px); color:var(--ink-soft); max-width:52ch; }
   .lede strong{ color:var(--ink); font-weight:600; }
-  h2{ font-size:clamp(23px,3.2vw,32px); margin-top:12px; }
-  .step-lede{ margin-top:12px; color:var(--ink-soft); max-width:60ch; font-size:clamp(15.5px,1.6vw,17px); }
+  h2{ font-size:clamp(23px,3.2vw,32px); margin-top:18px; }
+  .step-lede{ margin-top:9px; color:var(--ink-soft); max-width:62ch; font-size:clamp(15.5px,1.6vw,17px); }
 
   /* terminal */
   .console{ margin-top:22px; background:var(--console-bg); border-radius:8px; overflow:hidden;
@@ -160,8 +165,8 @@
   .sim-head .sim-count{ color:var(--console-fg); font-variant-numeric:tabular-nums; }
   .sim-head .sim-count.give{ color:var(--verdigris); font-weight:600; }
   .sim-canvas{ display:block; width:100%; height:230px; }
-  .sim-canvas.tall{ height:340px; }
-  @media (max-width:640px){ .sim-canvas{ height:186px; } .sim-canvas.tall{ height:250px; } }
+  .sim-canvas.tall{ height:240px; }
+  @media (max-width:640px){ .sim-canvas{ height:186px; } .sim-canvas.tall{ height:205px; } }
   .sim-foot{ padding:9px 14px; border-top:1px solid var(--console-line);
              font-family:var(--mono); font-size:11px; color:var(--console-dim); }
   .sim-bar{ display:flex; align-items:center; gap:12px; margin-top:14px; flex-wrap:wrap; }
@@ -304,7 +309,7 @@
       <div class="wrap">
         <p class="eyebrow">a logbook, not a slide deck — 2026-07-16</p>
         <h1>Your AI already solved this.<br>It just doesn't remember.</h1>
-        <p class="lede">Every time you open a fresh chat with an AI coding assistant, it starts from nothing — it can't remember what it worked out with you last time. So a tricky bug it fixed in one project last month gets puzzled out all over again, slower, in the next project this month. <strong>Brain is a shared logbook that carries those lessons forward — and the black command window on the next screen is real. You'll actually run it; it isn't a recording.</strong></p>
+        <p class="lede">Every fresh chat with an AI coding assistant starts from nothing — it can't remember what it worked out with you last time. So a bug it fixed in one project last month gets puzzled out all over again, slower, in the next. <strong>Brain is a shared logbook that carries those lessons forward.</strong></p>
       </div>
     </section>
 
@@ -382,7 +387,7 @@
       <div class="wrap">
         <p class="eyebrow">zoom out — one year · future A</p>
         <h2>If everyone only takes, here's a year from now.</h2>
-        <p class="step-lede">Start with six lessons. Play twelve months. People arrive, pull what's useful, and move on — everyone gets real value. Watch what the shared pool looks like when the year is up.</p>
+        <p class="step-lede">Start with six lessons. Play twelve months. People arrive, pull what's useful, move on — everyone gets value. Watch the shared pool when the year's up.</p>
         <div class="sim">
           <div class="sim-head"><span class="sim-title">Everyone read-only</span><span class="sim-count" id="countRead">6 lessons</span></div>
           <canvas id="simRead" class="sim-canvas tall" aria-label="A knowledge network where nobody contributes — it never grows past its six starting lessons over the year."></canvas>
@@ -393,7 +398,7 @@
           <div class="sim-progress"><div class="sim-progress-fill" id="fillRead"></div></div>
           <button class="sim-play" id="playRead" type="button">▶ Play the year</button>
         </div>
-        <p class="step-lede" style="margin-top:16px">A year on, every newcomer still benefits — from the exact same six lessons. Nothing here wasn't here on day one. That's read-only at scale: a fair deal for each person, and a pool that never gets any deeper.</p>
+        <p class="step-lede" style="margin-top:14px">A year on, everyone still benefits — from the exact same six lessons. Nothing here wasn't here on day one. Read-only at scale: fair for each person, a pool that never gets deeper.</p>
       </div>
     </section>
 
@@ -413,7 +418,7 @@
           <div class="sim-progress"><div class="sim-progress-fill" id="fillGive"></div></div>
           <button class="sim-play" id="playGive" type="button">▶ Play the year</button>
         </div>
-        <p class="step-lede" style="margin-top:16px">Same starting point, same twelve months — and the pool is now many times deeper, for everyone who shows up next. Read-only costs you nothing, and that's genuinely fine. <strong>Full is just how the whole thing gets smarter — including for you, next time.</strong></p>
+        <p class="step-lede" style="margin-top:14px">Same start, same twelve months — the pool is now many times deeper, for everyone who shows up next. Read-only costs you nothing, and that's fine. <strong>Full is how the whole thing gets smarter — including for you.</strong></p>
       </div>
     </section>
 
@@ -424,8 +429,8 @@
           <p class="eyebrow">the obvious objection</p>
           <p class="q"><em class="pull">"Why not just keep notes in a plain file?"</em></p>
           <div class="a prose">
-            <p>A notes file works for one project, for a while — and plenty of people do exactly that (an AI assistant will happily read a file you leave for it). But nothing guards it. Any assistant that edits the file can also wipe it by accident — which is exactly what happened to one project here, until a whole-file overwrite erased its notes. Nothing catches repeats, so the same lesson piles up five times under five slightly different names. And it can't travel — a fix written in one project's file stays stuck in that project.</p>
-            <p>Brain fixes all three with one gatekeeper. A single checker program reads every new entry — is it well-formed, is it actually new, is it worth keeping — before it's allowed to join the shared logbook, and it's the <em>only</em> thing permitted to write there. So one person's mistake sets aside that one entry for a human to look at. It can never take down everyone else's.</p>
+            <p>A notes file works — for one project, for a while. But nothing guards it: any assistant can wipe it by accident (that happened here), nothing catches repeats, and a fix in one project's file never reaches the next.</p>
+            <p>Brain fixes all three with one gatekeeper — a checker that vets every entry (well-formed? new? worth keeping?) before it joins the shared logbook, and it's the <em>only</em> thing allowed to write there. One person's mistake holds one entry, never the file.</p>
           </div>
         </div>
       </div>
@@ -436,7 +441,7 @@
       <div class="wrap">
         <p class="eyebrow">evidence, not adjectives</p>
         <h2>This page is proof of its own pitch.</h2>
-        <p class="step-lede">The lesson you watched get written down is real — it's how this page's own layout bug entered the logbook. Don't worry about reading every word of the two entries below; that's the point. They're actual, unedited records in the system's own shorthand — and Brain doesn't pretend everything gets solved. The second one is a real, still-unsettled question a project left open on purpose.</p>
+        <p class="step-lede">The lesson you watched get recorded is real — it's how this page's own layout bug entered the logbook. Don't try to read every word below; that's the point. These are actual, unedited records — and the second is a real question a project left open on purpose.</p>
         <div class="kernel">
           <span class="tag">[PITCH / persuasion / preempt-objections-refutationally]</span>
           <p>Name the audience's most likely skeptical objection explicitly, then resolve it in the same breath — refutational two-sided messaging reliably out-persuades staying silent about the objection, and also out-persuades raising it without answering it.</p>
@@ -462,7 +467,7 @@
 <div class="ln"><span class="prompt">$</span> brain link<span class="cursor"></span></div>
           </div>
         </div>
-        <p class="ask-note">Start in <code>read-only</code> — you get every lesson the logbook holds, and nothing you write ever leaves your computer. Switch to <code>full</code> when you want to give back, and even then it only sends anything out when <em>you</em> run <code>brain sync</code> yourself. You saw it: turning it off freezes everything in place, private, on your machine. There's nothing running quietly in the background to switch off.</p>
+        <p class="ask-note">Start in <code>read-only</code> — you get every lesson the logbook holds, and nothing you write ever leaves your computer. Switch to <code>full</code> to give back, and even then only when <em>you</em> run <code>brain sync</code>. Turn it off and everything freezes in place, private. Nothing runs in the background.</p>
       </div>
     </section>
 
